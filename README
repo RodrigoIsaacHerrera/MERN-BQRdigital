@@ -1,0 +1,29 @@
+Descripcion de Archivos y documentos principales.
+
+--src : contiene todo los documentos y archivos de código.
+------_models: carpeta que define los modelos de la base datos, que datos alamacenare en DB y contener documentos de diseño schemas.
+------_public: carpeta que contiene documentos de script (html,css,javascript) que se envian al navegador (aqui se situa el codigo convertido de react).
+------_routes: rutas que indican como se comunica el front-end ---> Back-end.
+------_app: carpeta contenedora del codigo react (librerias), codigo de la interfaz de usuario (librerias) luego de ser renderizado es situado en carpeta _public.
+
+/** este proyecto esta orientado a la funcionalidad basada en modularidad del front-end(REACT), back-end(EXPRESS NODE.js) y database (MONGODB)*/
+
+Doc indexserver.js{
+//Settings
+  aca se situan las configuraciones generales del servidor.
+//Middlewares
+  seccion de funciones que se ejecutan entre el servidor y la interfaz antes de que lleguen a las rutas.
+//Routes
+  seccion donde se declaran las rutas del servidor
+//Static files
+  seccion que indica o define en que carpeta destino se depositan los archivos standard (html,css,js) del front-end.
+// up-server
+   porcion de codigo que levanta el servidor e indica el puerto que puede ser cambiable.
+}
+
+dependencias :
+    "express": "^4.16.4"
+    //modulo framework que facilita la programacion del servidor.
+devDependencies: 
+    "nodemon": "^1.18.6" 
+    //modulo que permite actualizar cambios en servidor en tiempo de ejecucion.

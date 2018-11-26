@@ -1,0 +1,29 @@
+{
+  "name": "mern-bqrdigital",
+  "version": "1.0.0",
+  "description": "",
+  "main": "indexserver.js",
+  "scripts": {
+    "start": "node src/indexserver.js",
+    "dev": "nodemon src/indexserver.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RodrigoIsaacHerrera/MERN-BQRdigital.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RodrigoIsaacHerrera/MERN-BQRdigital/issues"
+  },
+  "homepage": "https://github.com/RodrigoIsaacHerrera/MERN-BQRdigital#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "morgan": "^1.9.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.6"
+  }
+}
