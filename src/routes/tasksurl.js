@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get('/',(req,res)=>{
     res.json({
-        status: 'hOMe page json format',
+        status: 'api funcionando, dato desde el servidor ahora en pantalla',
     });
 });
 router.get('*',(req,res)=>{

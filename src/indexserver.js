@@ -2,7 +2,7 @@
 const express = require('express');
 const app = express();
 const morgan = require('morgan');//este modulo se utiliza como middleware (use)
-const path = require('path');
+const path = require('path'); //permite parsear directiorios segun el sistema operativo
 
 
 //Settings
