@@ -15,7 +15,7 @@ app.use(express.json());//fundamental para permitir recibir y enviar json data d
 
 
 //Routes
-app.use('/boletos',require('./routes/tasksurl'));
+app.use('/api/boletos',require('./routes/tasksurl'));
 
 
 //Static files
