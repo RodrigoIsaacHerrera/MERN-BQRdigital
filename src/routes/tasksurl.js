@@ -1,6 +1,7 @@
 //este archivo se encarga de el comportamiento de la aplicacion (controladores MVC)
 /*Permite comunicar el front-end con el back-end, consultar datos modificar datos, eliminar datos, leer datos
-ademas de definir las operaciones mediante las urls que vamos a dar en el servidor */
+ademas de definir las operaciones mediante las urls que vamos a dar en el servidor
+https://otroespacioblog.wordpress.com/2013/05/22/conoce-un-poco-sobre-los-metodos-http-en-rest/ */
 const express = require('express');
 const router = express.Router();
 const boletos =  require('../models/task')//modelo almacenado en constante para hacer consulta a la base de datos
