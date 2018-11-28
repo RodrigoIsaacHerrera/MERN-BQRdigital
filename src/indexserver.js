@@ -1,9 +1,9 @@
-//archivo principal EXPRESS NODEJS que levanta el sistema. inicializa el servidor.
+//archivo principal EXPRESS NODEJS que levanta el sistema. inicializa el servidor y sus modulos
 const express = require('express');
 const app = express();
 const morgan = require('morgan');//este modulo se utiliza como middleware (use)
 const path = require('path'); //permite parsear directiorios segun el sistema operativo
-
+const { mongoose } = require('./database');
 
 //Settings
 app.set('port', process.env.PORT || 1989 );//pocess.env.P... permite pasar el puerto de una nunbe si la hay.
