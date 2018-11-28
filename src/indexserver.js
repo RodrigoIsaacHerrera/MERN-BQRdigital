@@ -3,16 +3,15 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');//este modulo se utiliza como middleware (use)
 const path = require('path'); //permite parsear directiorios segun el sistema operativo
-const { mongoose } = require('./database');
+const { mongoose } = require('./database');//llamado a archivo indexserver.js
 
 //Settings
 app.set('port', process.env.PORT || 1989 );//pocess.env.P... permite pasar el puerto de una nunbe si la hay.
 //Middlewares
 app.use(morgan('dev'));
-app.use(express.json());//fundamental para permitir recibir y enviar json data desde server.
+app.use(express.json());//fundamental para permitir recibir y enviar formato documento json.
 //Routes
 app.use('/api/boletos',require('./routes/tasksurl'));
-
 //Static files
 app.use(express.static(path.join(__dirname,'public')));//indica donde estara el codgi standart(html,css,js)
 // up-server
