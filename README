@@ -20,8 +20,9 @@ Doc indexserver.js{{
 // up-server
    porcion de codigo que levanta el servidor e indica el puerto que puede ser cambiable.
 dependencias :
-    "express": "^4.16.4"
-    //modulo framework que facilita la programacion del servidor.
+    "express": "^4.16.4"//modulo framework que facilita la programacion del servidor.
+    "mongoose": "^5.3.13",//modulo framework que habilita node a interactuar con mongodb
+    "morgan": "^1.9.1"// modulo para desarrolladores, otorga informacion de requiest por consola
 devDependencies: 
-    "nodemon": "^1.18.6" 
-    //modulo que permite actualizar cambios en servidor en tiempo de ejecucion de pruebas.}}
+    "nodemon": "^1.18.6"  //modulo que permite actualizar cambios en servidor en tiempo de ejecucion de prubas
+    sin caida del servidor.}}
