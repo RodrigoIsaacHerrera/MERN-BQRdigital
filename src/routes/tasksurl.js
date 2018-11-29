@@ -5,15 +5,17 @@ https://otroespacioblog.wordpress.com/2013/05/22/conoce-un-poco-sobre-los-metodo
 const express = require('express');
 const router = express.Router();
 const boletos =  require('../models/task')//modelo almacenado en constante para hacer consulta a la base de datos
-/*
-let promise = Promise((resolve, reject)=>{});promise a implementar en el futuro
- */
+/*let promise = Promise((resolve, reject)=>{});promise a implementar en el futuro*/
 router.get('/',async(req,res)=>{
       const  ticket  =   await boletos.find();//consulta a la db
       res.json(ticket + 'boleto en pantalla');//repuesta de la db
 });
-router.get('*',(req,res)=>{
-    res.send('lo sentimos la pagina no existe')
+router.post('/',async(req,res)=>{
+    console.log(req.body);//servidor obtiene el dato 
+    res.json('metodo post exitoso (documento creado)');//respuesta del servidor
+});
+router.get('*',async(req,res)=>{
+    res.json(404,'no tengo este archivo');
 });
 
 module.exports = router;
