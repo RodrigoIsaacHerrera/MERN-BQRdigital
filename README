@@ -19,11 +19,9 @@ Doc indexserver.js{{
   seccion que indica o define en que carpeta destino se depositan los archivos standard (html,css,js) del front-end.
 // up-server
    porcion de codigo que levanta el servidor e indica el puerto que puede ser cambiable.
-}}
-
 dependencias :
     "express": "^4.16.4"
     //modulo framework que facilita la programacion del servidor.
 devDependencies: 
     "nodemon": "^1.18.6" 
-    //modulo que permite actualizar cambios en servidor en tiempo de ejecucion.}}
+    //modulo que permite actualizar cambios en servidor en tiempo de ejecucion de pruebas.}}
