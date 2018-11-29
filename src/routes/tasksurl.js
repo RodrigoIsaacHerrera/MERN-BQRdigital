@@ -10,14 +10,14 @@ const boletos =  require('../models/task')//modelo almacenado en constante para 
 //Obtiene schema boleto
 router.get('/',async(req,res)=>{
       const  ticket  =   await boletos.find();//consulta a la db
-      res.json(ticket + 'boleto en pantalla');//repuesta de la db
+      res.json(ticket);//repuesta de la db
 });
 //Ingresa schema boleto
 router.post('/',async(req,res)=>{
     const {title,description} = req.body;//cliente envia documento al servidor
     const boleto = new boletos({title,description,});
-    console.log(boleto);
-    res.json('metodo post exitoso (documento creado)');//respuesta del servidor;
+    await boleto.save();
+    res.json({status: 'boleto registrado exitosamente'});//respuesta del servidor
 });
 router.get('*',async(req,res)=>{
     res.json(404,'no tengo este archivo');
