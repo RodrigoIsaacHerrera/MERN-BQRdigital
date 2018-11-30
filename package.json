@@ -13,7 +13,7 @@
     "url": "git+https://github.com/RodrigoIsaacHerrera/MERN-BQRdigital.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "RodrigoIsaacHerrera",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/RodrigoIsaacHerrera/MERN-BQRdigital/issues"
@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "nodemon": "^1.18.6",
-    "webpack": "^4.26.1"
+    "webpack": "^4.26.1",
+    "webpack-cli": "^3.1.2"
   }
 }
