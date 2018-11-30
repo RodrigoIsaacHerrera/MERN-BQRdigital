@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node src/indexserver.js",
     "dev": "nodemon src/indexserver.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "webpack": "webpack --mode development"
   },
   "repository": {
     "type": "git",
