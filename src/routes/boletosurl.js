@@ -7,10 +7,15 @@ const router = express.Router();
 const boletos =  require('../models/ticket')//modelo almacenado en constante para hacer consulta a la base de datos
 /*let promise = Promise((resolve, reject)=>{});promise a implementar en el futuro*/
 
-//Obtiene schema boleto
+//Obtiene schema boletos o todos los documentos boletos
 router.get('/',async(req,res)=>{
-      const  ticket  =   await boletos.find();//consulta a la db
+     const  ticket  =   await boletos.find();//consulta a la db
       res.json(ticket);//repuesta de la db
+});
+//obtiene un unico boleto
+router.get('/:id',async(req,res)=>{
+     const ticket = await boletos.findById(req.params.id);
+     res.json(ticket);
 });
 //Ingresa schema boleto
 router.post('/',async(req,res)=>{
