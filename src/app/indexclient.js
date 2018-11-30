@@ -9,5 +9,5 @@ class App extends Component{
         )
     }
 }
-render(<App/>,document )
+render(<App/>,document.getElementById('app') )
 
