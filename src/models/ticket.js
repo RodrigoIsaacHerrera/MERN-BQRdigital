@@ -3,7 +3,12 @@ const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
 const ticketschema = new Schema({
-    title : {type: String, required:true},
-    description: {type: String, required:true},
+    Empresa : {type: String, required:true},
+    Origen:  {type:String,required:true},
+    Destino: {type:String,required:true},
+    Fecha:   {type:String,required:true},
+    Abordaje:{type:String,required:true},
+    Salida:  {type:String,required:true},
+    Condiciones_Legales:{type: String, required:true},
 })
 module.exports = mongoose.model('ticket', ticketschema);
