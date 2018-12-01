@@ -1,13 +1,12 @@
-//este archivo arranca la interfaz, webpack y su magia 
 import React,{Component} from 'react';
 import {render} from 'react-dom';
 
 class App extends Component{
     render(){
         return(
-            <h1>hellow worl con React</h1>
+            <h1>hellow world con React + Babel7 + Webpack4</h1>
         )
     }
 }
-render(<App/>,document.getElementById('app') )
+render(<App/>,document.getElementById('app'))
 

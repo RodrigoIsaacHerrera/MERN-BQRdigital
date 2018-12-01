@@ -8,8 +8,8 @@ module.exports = {
     module:{
         rules:[{
             use: 'babel-loader',
-            test: /\.js$/,
-            exclude: /node_modules/
+            test: /\.m?js$/,
+            exclude: /(node_modules|bower_components)/
         }]
     }
 };

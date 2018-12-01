@@ -25,10 +25,10 @@
     "morgan": "^1.9.1"
   },
   "devDependencies": {
-    "babel-core": "^6.26.3",
+    "@babel/core": "^7.1.6",
+    "@babel/preset-env": "^7.1.6",
+    "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.4",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
     "nodemon": "^1.18.6",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
