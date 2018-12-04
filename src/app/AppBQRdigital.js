@@ -7,22 +7,19 @@ class App extends Component{
     }
     render(){
         return(
-            <div className="8bc34a light-green">
-                
+            <div className="8bc34a light-green">    
                     <nav> 
-
-                            <div className="nav-wraper-fixed">
+                        <div className="nav-wraper-fixed">
                             
-                                <a href="/" className="brand-logo center-align"><span></span>BQRdigital</a>
-                                <ul id="nav-mobile" className="right hide-on-med-and-down">
-                                    <li><a>GitHub</a></li>
+                            <a href="/" className="brand-logo center-align"><span></span>BQRdigital</a>
+                            <ul id="nav-mobile" className="right hide-on-med-and-down">
+                                    <li><a href="https//:www.github.com">GitHub</a></li>
                                     <li><a linkrel="react.com">React JS</a></li>
                                     <li><a href="mongoose.org">MongoDB</a></li>
                                     <li></li> 
-                                </ul>
-                            
-                            </div>
-                        </nav>
+                                </ul>  
+                        </div>
+                    </nav>
                     
                     <br></br>
                     <div id="descripcion" className="container">
@@ -72,8 +69,8 @@ class App extends Component{
                                                     </div>
                                                     <br></br>
                                                 </div>
-                                                <button type="submit" className="btn-light darken-4 large pulse">
-                                                    Crear copia 
+                                                <button type="submit" className="btn btn-light darken-4">
+                                                    Simular
                                                 </button>
                                             </form>
                                     </div>
