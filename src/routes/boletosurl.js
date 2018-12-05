@@ -9,90 +9,75 @@ const boletos =  require('../models/ticket')//modelo almacenado en constante par
 
 //Obtiene schema boletos o todos los documentos boletos
 router.get('/',async(req,res)=>{
-    const  ticket  =   await boletos.find()//consulta a la db
-    .then(()=>{
-        res.send.json(ticket);
-    })
-    .catch((err)=>{
-        err = res.send('No posees boletos');
-        return err;
-    })
+    const  ticket  =   await boletos.find();//consulta a la db
+    res.json(ticket);
+    console.log(err);  
 });
-//obtiene un unico boleto
+//obtiene un unico documento boleto
 router.get('/:id',async(req,res)=>{
-    const ticket = await boletos.findById(req.params.id)
-    .then(()=>{
-        res.send.json(ticket)
-    })
-    .catch((err)=>{
-        err = res.send('Boleto no encontrado');
-        return err;
-    })
+    const ticket = await boletos.findById(req.params.id);
+    res.send.json(ticket);
+    console.log(err);    
 });
 //Ingresa schema boleto
 router.post('/',async(req,res)=>{
     const {
         Empresa,
+        Asiento,
         Origen,
         Destino,
         Fecha,
         Abordaje,
         Salida,
-        Condiciones_Legales} = req.body;//cliente envia documento al servidor
+        Condiciones_Legales,
+        Cod_QR} = req.body;//cliente envia documento al servidor
     const boleto = new boletos({
         Empresa,
+        Asiento,
         Origen,
         Destino,
         Fecha,
         Abordaje,
         Salida,
-        Condiciones_Legales});
+        Condiciones_Legales,
+        Cod_QR});
     await boleto.save()
-    .then(()=>{res.json({status: 'boleto registrado exitosamente'});})
-    .catch((err)=>{
-        err = res.send('no se pudo registrar su peticion');
-        return err;
-    })
+    res.json({status: 'boleto registrado exitosamente'})
+    console.log(err);
     //respuesta del servidor
 });
 //Actualiza schema boleto
-router.put('/:id',async(req,res) =>{
+router.put('/:id',async(req,res)=>{
     const{
         Empresa,
+        Asiento,
         Origen,
         Destino,
         Fecha,
         Abordaje,
         salida,
-        Condiciones_Legales
+        Condiciones_Legales,
+        Cod_QR
     } = req.body;
     const newboleto = ({
         Empresa,
+        Asiento,
         Origen,
         Destino,
         Fecha,
         Abordaje,
         salida,
-        Condiciones_Legales
+        Condiciones_Legales,
+        Cod_QR
     });
     await boletos.findByIdAndUpdate(req.params.id, newboleto)//actualiza a la base de datos
-    .then(()=>{
-        res.json({status:'Boleto Actualizado'});
-    })
-    .catch((err)=>{
-        err = res.send('No se pudo completar su peticion');
-        return err;
-    })
+    res.send({status:'Boleto Actualizado'})
+    console.log(err); 
 });
-//Elimina schema boleto
+//Elimina  boleto
 router.delete('/:id',async(req,res)=>{
-    await boletos.findByIdAndRemove(req.params.id)//actualiza a la base de datos
-    .then(()=>{
-        res.json({status:'Boleto Eliminado'});
-    })
-    .catch((err)=>{
-        err = res.send('Su peticion no se completo satisfactoriamente');
-        return err;
-    })
+    await boletos.findByIdAndRemove(req.params.id)//actualiza a la base de datos    
+    res.json({status:'Boleto Eliminado'});
+    console.log(err);
 });
 module.exports = router;
