@@ -1,18 +1,18 @@
 import React,{Component} from 'react';
-//import {Alert, AppRegistri, Button,StyleSheet, View} from 'react-native';
+
 class App extends Component{
     constructor(){
         super();
         this.state = {
-            Empresa:'',
-            Asiento:'',
-            Origen:'',
-            Destino:'',
-            Fecha:'',
-            Abordaje:'',
-            Salida:'',
-            Condiciones_Legales:'',
-            Cod_QR:''
+            Empresa:"",
+            Asiento:"",
+            Origen:"",
+            Destino:"",
+            Fecha:"",
+            Abordaje:"",
+            Salida:"",
+            Condiciones_Legales:"",
+            Cod_QR:""
         }
         this.handleChange =this.handleChange.bind(this);
         this.addBoleto = this.addBoleto.bind(this);
