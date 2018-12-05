@@ -33,20 +33,24 @@ router.get('/:id',async(req,res)=>{
 router.post('/',async(req,res)=>{
     const {
         Empresa,
+        Asiento,
         Origen,
         Destino,
         Fecha,
         Abordaje,
         Salida,
-        Condiciones_Legales} = req.body;//cliente envia documento al servidor
+        Condiciones_Legales,
+        Cod_QR} = req.body;//cliente envia documento al servidor
     const boleto = new boletos({
         Empresa,
+        Asiento,
         Origen,
         Destino,
         Fecha,
         Abordaje,
         Salida,
-        Condiciones_Legales});
+        Condiciones_Legales,
+        Cod_QR});
     await boleto.save()
     .then(()=>{res.json({status: 'boleto registrado exitosamente'});})
     .catch((err)=>{
@@ -56,24 +60,28 @@ router.post('/',async(req,res)=>{
     //respuesta del servidor
 });
 //Actualiza schema boleto
-router.put('/:id',async(req,res) =>{
+router.put('/:id',async(req,res)=>{
     const{
         Empresa,
+        Asiento,
         Origen,
         Destino,
         Fecha,
         Abordaje,
         salida,
-        Condiciones_Legales
+        Condiciones_Legales,
+        Cod_QR
     } = req.body;
     const newboleto = ({
         Empresa,
+        Asiento,
         Origen,
         Destino,
         Fecha,
         Abordaje,
         salida,
-        Condiciones_Legales
+        Condiciones_Legales,
+        Cod_QR
     });
     await boletos.findByIdAndUpdate(req.params.id, newboleto)//actualiza a la base de datos
     .then(()=>{
@@ -84,7 +92,7 @@ router.put('/:id',async(req,res) =>{
         return err;
     })
 });
-//Elimina schema boleto
+//Elimina  boleto
 router.delete('/:id',async(req,res)=>{
     await boletos.findByIdAndRemove(req.params.id)//actualiza a la base de datos
     .then(()=>{

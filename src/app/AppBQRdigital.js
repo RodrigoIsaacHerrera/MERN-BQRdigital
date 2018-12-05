@@ -1,33 +1,60 @@
 import React,{Component} from 'react';
-
+//import {Alert, AppRegistri, Button,StyleSheet, View} from 'react-native';
 class App extends Component{
-
-    addBoleto(){
+    constructor(){
+        super();
+        this.state = {
+            txtEmpresa:'',
+            txtAsiento:'',
+            txtOrigen:'',
+            txtDestino:'',
+            txtFecha:'',
+            txtAbordaje:'',
+            txtSalida:'',
+            txtCondiciones_Legales:'',
+            txtCod_QR:''
+        }
+        this.handleChange =this.handleChange.bind(this);
+        this.addBoleto = this.addBoleto.bind(this);
+    }
+    addBoleto(e){
+        fetch('/api/boletos',{
+               method:"POST",
+               body:JSON.stringify(this.state),
+               headers:{
+                   "Accept":"application/json",
+                   "Content-Type":"application/json"
+               }
+            }
+        )
         
+        e.preventDefault();
+    }
+    handleChange(e){
+        const { name, value} = e.target;
+        this.setState({[name]:value})
     }
     render(){
         return(
             <div className="8bc34a light-green">    
                     <nav> 
                         <div className="nav-wraper-fixed">
-                            
                             <a href="/" className="brand-logo center-align"><span></span>BQRdigital</a>
                             <ul id="nav-mobile" className="right hide-on-med-and-down">
-                                    <li><a href="https//:www.github.com">GitHub</a></li>
-                                    <li><a linkrel="react.com">React JS</a></li>
-                                    <li><a href="mongoose.org">MongoDB</a></li>
-                                    <li></li> 
-                                </ul>  
+                                <li><a href="https://www.github.com">GitHub</a></li>
+                                <li><a href="https://reactjs.org">ReactJS</a></li>
+                                <li><a href="https://mongoose.org">mongoose</a></li>
+                                <li></li> 
+                            </ul>  
                         </div>
                     </nav>
-                    
                     <br></br>
                     <div id="descripcion" className="container">
                     <br></br>
                         <div className="row">
                             <div className="col s12">
-                                <h1>Tu Boleto puede ser SER DIGITAL con código QR</h1>
-                                <p>Aca esta el parrafo que expliaca este proyecto de prototipo aplicacion web</p>
+                                <h1>Tu Boleto puede SER DIGITAL con código QR</h1>
+                                <h2>Atrevete a cambiar el mundo y unete a este proyecto</h2>
                             </div>
                         </div>
                     </div>
@@ -36,47 +63,60 @@ class App extends Component{
                             <div className="col s6">
                                 <div className="card">
                                     <div className="card-content">
+                                            <h3>Boleto</h3>
                                             <form onSubmit={this.addBoleto}>
-                                                <label>HAZ LA PRUEBA</label>
+                                                <p></p>
                                                 <div className="row">
                                                     <br></br>
                                                     <div className="input field col s12">
-                                                        <input type="text" name="txtEmpresa" placeholder="Empresa"></input>
+                                                        <label>Empresa</label>
+                                                        <input type="text" name="txtEmpresa" onChange={this.handleChange} placeholder="(*)"></input>
                                                     </div>
                                                     <br></br>
                                                     <div className="input field col s12">
-                                                        <input type="text" name="txtOrigen" placeholder="Origen"></input>
+                                                        <label>Asiento</label>
+                                                        <input type="text" name="txtAsiento" onChange={this.handleChange} placeholder="(*)"></input>
                                                     </div>
                                                     <br></br>
                                                     <div className="input field col s12">
-                                                        <input type="text" name="txtDestino" placeholder="Destino"></input>
+                                                        <label>Origen</label>
+                                                        <input type="text" name="txtOrigen" onChange={this.handleChange} placeholder="(*)"></input>
                                                     </div>
                                                     <br></br>
                                                     <div className="input field col s12">
-                                                        <input type="text" name="txtFecha" placeholder="Fecha"></input>
+                                                        <label>Destino</label>
+                                                        <input type="text" name="txtDestino" onChange={this.handleChange} placeholder="(*)"></input>
                                                     </div>
                                                     <br></br>
                                                     <div className="input field col s12">
-                                                        <input type="text" name="txtAbordaje" placeholder="Abordaje"></input>
+                                                        <label>Fecha</label>
+                                                        <input type="text" name="txtFecha" onChange={this.handleChange} placeholder="(*)"></input>
                                                     </div>
                                                     <br></br>
                                                     <div className="input field col s12">
-                                                        <input type="text" name="txtSalida" placeholder="Salida"></input>
+                                                        <label>Abordaje</label>
+                                                        <input type="text" name="txtAbordaje" onChange={this.handleChange} placeholder="(*)"></input>
+                                                    </div>
+                                                    <br></br>
+                                                    <div className="input field col s12">
+                                                        <label>Salida</label>
+                                                        <input type="text" name="txtSalida" onChange={this.handleChange} placeholder="(*)"></input>
                                                     </div>
                                                     <br></br>
                                                     <div className="input field col s12" >
-                                                        <textarea  name="txtCondiciones_Legales" placeholder="Condiciones Legales Boleto" className="materialize-textarea"></textarea>
+                                                        <label>Condiciones Legales Boleto</label>
+                                                        <textarea  name="txtCondiciones_Legales" onChange={this.handleChange} placeholder="(*)" className="materialize-textarea"></textarea>
                                                     </div>
                                                     <br></br>
                                                 </div>
-                                                <button type="submit" className="btn btn-light darken-4">
+                                                <button type="Submit" className="btn btn-light darken-4 pulse" /*onPress={()=>{this.addBoleto}}*/>
                                                     Simular
                                                 </button>
                                             </form>
                                     </div>
                                 </div>
                             </div>
-                            <div clasName="col s6">
+                            <div className="col s6">
 
                             </div>
                         </div>
