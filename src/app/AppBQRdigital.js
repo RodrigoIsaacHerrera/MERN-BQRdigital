@@ -4,15 +4,15 @@ class App extends Component{
     constructor(){
         super();
         this.state = {
-            txtEmpresa:'',
-            txtAsiento:'',
-            txtOrigen:'',
-            txtDestino:'',
-            txtFecha:'',
-            txtAbordaje:'',
-            txtSalida:'',
-            txtCondiciones_Legales:'',
-            txtCod_QR:''
+            Empresa:'',
+            Asiento:'',
+            Origen:'',
+            Destino:'',
+            Fecha:'',
+            Abordaje:'',
+            Salida:'',
+            Condiciones_Legales:'',
+            Cod_QR:''
         }
         this.handleChange =this.handleChange.bind(this);
         this.addBoleto = this.addBoleto.bind(this);
@@ -23,11 +23,15 @@ class App extends Component{
                body:JSON.stringify(this.state),
                headers:{
                    "Accept":"application/json",
-                   "Content-Type":"application/json"
+                   "Content-Type":"application/json",
                }
             }
         )
-        
+        .then(res=>{res.json()})
+        .then(data=>{
+            console.log(data)
+            M.toast({html:'guardado'})
+        })
         e.preventDefault();
     }
     handleChange(e){
@@ -70,46 +74,46 @@ class App extends Component{
                                                     <br></br>
                                                     <div className="input field col s12">
                                                         <label>Empresa</label>
-                                                        <input type="text" name="txtEmpresa" onChange={this.handleChange} placeholder="(*)"></input>
+                                                        <input type="text" name="Empresa" value={this.state.Empresa} onChange={this.handleChange} placeholder="(*)"></input>
                                                     </div>
                                                     <br></br>
                                                     <div className="input field col s12">
                                                         <label>Asiento</label>
-                                                        <input type="text" name="txtAsiento" onChange={this.handleChange} placeholder="(*)"></input>
+                                                        <input type="text" name="Asiento" value={this.state.Asiento} onChange={this.handleChange} placeholder="(*)"></input>
                                                     </div>
                                                     <br></br>
                                                     <div className="input field col s12">
                                                         <label>Origen</label>
-                                                        <input type="text" name="txtOrigen" onChange={this.handleChange} placeholder="(*)"></input>
+                                                        <input type="text" name="Origen"  value={this.state.Origen} onChange={this.handleChange} placeholder="(*)"></input>
                                                     </div>
                                                     <br></br>
                                                     <div className="input field col s12">
                                                         <label>Destino</label>
-                                                        <input type="text" name="txtDestino" onChange={this.handleChange} placeholder="(*)"></input>
+                                                        <input type="text" name="Destino" value={this.state.Destino} onChange={this.handleChange} placeholder="(*)"></input>
                                                     </div>
                                                     <br></br>
                                                     <div className="input field col s12">
                                                         <label>Fecha</label>
-                                                        <input type="text" name="txtFecha" onChange={this.handleChange} placeholder="(*)"></input>
+                                                        <input type="text" name="Fecha" value={this.state.Fecha} onChange={this.handleChange} placeholder="(*)"></input>
                                                     </div>
                                                     <br></br>
                                                     <div className="input field col s12">
                                                         <label>Abordaje</label>
-                                                        <input type="text" name="txtAbordaje" onChange={this.handleChange} placeholder="(*)"></input>
+                                                        <input type="text" name="Abordaje" value={this.state.Abordaje} onChange={this.handleChange} placeholder="(*)"></input>
                                                     </div>
                                                     <br></br>
                                                     <div className="input field col s12">
                                                         <label>Salida</label>
-                                                        <input type="text" name="txtSalida" onChange={this.handleChange} placeholder="(*)"></input>
+                                                        <input type="text" name="Salida" value={this.state.Salida} onChange={this.handleChange} placeholder="(*)"></input>
                                                     </div>
                                                     <br></br>
                                                     <div className="input field col s12" >
                                                         <label>Condiciones Legales Boleto</label>
-                                                        <textarea  name="txtCondiciones_Legales" onChange={this.handleChange} placeholder="(*)" className="materialize-textarea"></textarea>
+                                                        <textarea  name="Condiciones_Legales" value={this.state.Condiciones_Legales} onChange={this.handleChange} placeholder="(*)" className="materialize-textarea"></textarea>
                                                     </div>
                                                     <br></br>
                                                 </div>
-                                                <button type="Submit" className="btn btn-light darken-4 pulse" /*onPress={()=>{this.addBoleto}}*/>
+                                                <button type="submit" className="btn btn-light darken-4 pulse" /*onPress={()=>{this.addBoleto}}*/>
                                                     Simular
                                                 </button>
                                             </form>

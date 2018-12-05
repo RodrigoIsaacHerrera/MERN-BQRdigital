@@ -14,19 +14,17 @@ router.get('/',async(req,res)=>{
         res.send.json(ticket);
     })
     .catch((err)=>{
-        err = res.send('No posees boletos');
-        return err;
+        console.log(err); 
     })
 });
 //obtiene un unico boleto
 router.get('/:id',async(req,res)=>{
     const ticket = await boletos.findById(req.params.id)
     .then(()=>{
-        res.send.json(ticket)
+        res.send.json(ticket);
     })
     .catch((err)=>{
-        err = res.send('Boleto no encontrado');
-        return err;
+       console.log(err);
     })
 });
 //Ingresa schema boleto
@@ -54,8 +52,7 @@ router.post('/',async(req,res)=>{
     await boleto.save()
     .then(()=>{res.json({status: 'boleto registrado exitosamente'});})
     .catch((err)=>{
-        err = res.send('no se pudo registrar su peticion');
-        return err;
+        console.log(err);
     })
     //respuesta del servidor
 });
@@ -88,8 +85,7 @@ router.put('/:id',async(req,res)=>{
         res.json({status:'Boleto Actualizado'});
     })
     .catch((err)=>{
-        err = res.send('No se pudo completar su peticion');
-        return err;
+        console.log(err); 
     })
 });
 //Elimina  boleto
@@ -99,8 +95,7 @@ router.delete('/:id',async(req,res)=>{
         res.json({status:'Boleto Eliminado'});
     })
     .catch((err)=>{
-        err = res.send('Su peticion no se completo satisfactoriamente');
-        return err;
+        console.log(err);
     })
 });
 module.exports = router;
