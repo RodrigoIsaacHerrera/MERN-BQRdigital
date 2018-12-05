@@ -46,6 +46,14 @@ class App extends Component{
         })
         e.preventDefault();
     }
+    componentDidMount(){
+        this.getBoleto();
+    }
+    getBoleto(){
+        fetch('/api/boletos')
+            .then(res => res.json())
+            .then(data => console.log(data))
+    }
     handleChange(e){
         const { name, value } = e.target;
         this.setState({[name]:value})
