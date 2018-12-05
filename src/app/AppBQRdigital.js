@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React,{ Component } from 'react';
 
 class App extends Component{
     constructor(){
@@ -19,23 +19,35 @@ class App extends Component{
     }
     addBoleto(e){
         fetch('/api/boletos',{
-               method:"POST",
+               method:'POST',
                body:JSON.stringify(this.state),
                headers:{
-                   "Accept":"application/json",
-                   "Content-Type":"application/json",
+                   'Accept':'application/json',
+                   'Content-Type':'application/json',
                }
             }
         )
-        .then(res=>{res.json()})
+        .then(res=>res.json())
+        .catch(err=>console.error(err))
         .then(data=>{
             console.log(data)
-            M.toast({html:'guardado'})
+            M.toast({html:'BOLETO REGISTRADO'})
+            this.setState({
+                Empresa:'',
+                Asiento:'',
+                Origen:'',
+                Destino:'',
+                Fecha:'',
+                Abordaje:'',
+                Salida:'',
+                Condiciones_Legales:'',
+                Cod_QR:''
+            })
         })
         e.preventDefault();
     }
     handleChange(e){
-        const { name, value} = e.target;
+        const { name, value } = e.target;
         this.setState({[name]:value})
     }
     render(){
