@@ -1,5 +1,6 @@
 import React,{ Component } from 'react';
 
+
 class App extends Component{
     constructor(){
         super();
@@ -59,7 +60,6 @@ class App extends Component{
             })
             .catch((e)=>{console.error(e)})
     }
-    
     handleChange(e){
         const { name, value } = e.target;
         this.setState({[name]:value})
@@ -150,11 +150,15 @@ class App extends Component{
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th>Resultado</th>
+                                            <th><h3>Boletos</h3></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-
+                                        <tr key={this.state.Boletos._id}>
+                                          <td>
+                                               
+                                          </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>

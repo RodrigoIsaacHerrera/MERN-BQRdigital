@@ -10,7 +10,7 @@ const boletos =  require('../models/ticket')//modelo almacenado en constante par
 //Obtiene schema boletos o todos los documentos boletos
 router.get('/',async(req,res)=>{
     try {
-        const  ticket  =   await boletos.find();//consulta a la db
+        const  ticket  =   await boletos.find()//consulta a la db
         res.json(ticket);
     } catch (error) {
         console.log(error);
