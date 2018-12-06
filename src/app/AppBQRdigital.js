@@ -13,6 +13,7 @@ class App extends Component{
             Salida:"",
             Condiciones_Legales:"",
             Cod_QR:"",
+            Boletos:[],
         }
         this.handleChange =this.handleChange.bind(this);
         this.addBoleto = this.addBoleto.bind(this);
@@ -47,14 +48,18 @@ class App extends Component{
         e.preventDefault();
     }
     componentDidMount(){
-        this.getBoleto();
+        this.getBoletos();
     }
-    getBoleto(){
+    getBoletos(){
         fetch('/api/boletos')
             .then(res => res.json())
-            .then(data => console.log(data))
-            .catch((e)=>{console.log(e)})
+            .then((data) =>{ 
+                this.setState({Boletos:data}),
+                console.log(this.state.Boletos)
+            })
+            .catch((e)=>{console.error(e)})
     }
+    
     handleChange(e){
         const { name, value } = e.target;
         this.setState({[name]:value})
