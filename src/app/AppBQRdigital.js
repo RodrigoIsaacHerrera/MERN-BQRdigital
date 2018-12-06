@@ -12,7 +12,7 @@ class App extends Component{
             Abordaje:"",
             Salida:"",
             Condiciones_Legales:"",
-            Cod_QR:""
+            Cod_QR:"",
         }
         this.handleChange =this.handleChange.bind(this);
         this.addBoleto = this.addBoleto.bind(this);
@@ -53,6 +53,7 @@ class App extends Component{
         fetch('/api/boletos')
             .then(res => res.json())
             .then(data => console.log(data))
+            .catch((e)=>{console.log(e)})
     }
     handleChange(e){
         const { name, value } = e.target;
@@ -82,7 +83,7 @@ class App extends Component{
                             </div>
                         </div>
                     </div>
-                    <div id="app" className="container">
+                    <div id="aplicacion" className="container">
                         <div className="row">
                             <div className="col s6">
                                 <div className="card">
@@ -141,7 +142,16 @@ class App extends Component{
                                 </div>
                             </div>
                             <div className="col s6">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Resultado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>

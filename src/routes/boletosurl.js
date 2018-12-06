@@ -9,42 +9,50 @@ const boletos =  require('../models/ticket')//modelo almacenado en constante par
 
 //Obtiene schema boletos o todos los documentos boletos
 router.get('/',async(req,res)=>{
-    const  ticket  =   await boletos.find();//consulta a la db
-    res.json(ticket);
-    console.log(err);  
+    try {
+        const  ticket  =   await boletos.find();//consulta a la db
+        res.json(ticket);
+    } catch (error) {
+        console.log(error);
+    }
 });
 //obtiene un unico documento boleto
 router.get('/:id',async(req,res)=>{
-    const ticket = await boletos.findById(req.params.id);
-    res.send.json(ticket);
-    console.log(err);    
+    try {
+        const ticket = await boletos.findById(req.params.id);
+        res.json(ticket);
+    } catch (error) {
+        console.log(error);  
+    }   
 });
 //Ingresa schema boleto
 router.post('/',async(req,res)=>{
-    const {
-        Empresa,
-        Asiento,
-        Origen,
-        Destino,
-        Fecha,
-        Abordaje,
-        Salida,
-        Condiciones_Legales,
-        Cod_QR} = req.body;//cliente envia documento al servidor
-    const boleto = new boletos({
-        Empresa,
-        Asiento,
-        Origen,
-        Destino,
-        Fecha,
-        Abordaje,
-        Salida,
-        Condiciones_Legales,
-        Cod_QR});
-    await boleto.save()
-    res.json({status: 'boleto registrado exitosamente'})
-    console.log(err);
-    //respuesta del servidor
+    try {
+        const {
+            Empresa,
+            Asiento,
+            Origen,
+            Destino,
+            Fecha,
+            Abordaje,
+            Salida,
+            Condiciones_Legales,
+            Cod_QR} = req.body;//cliente envia documento al servidor
+        const boleto = new boletos({
+            Empresa,
+            Asiento,
+            Origen,
+            Destino,
+            Fecha,
+            Abordaje,
+            Salida,
+            Condiciones_Legales,
+            Cod_QR});
+        await boleto.save();
+        res.json({status: 'boleto registrado exitosamente'});//respuesta del servidor
+    } catch (error) {
+        console.log(error);  
+    } 
 });
 //Actualiza schema boleto
 router.put('/:id',async(req,res)=>{
