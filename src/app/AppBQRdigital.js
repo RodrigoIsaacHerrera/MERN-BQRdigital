@@ -45,6 +45,7 @@ class App extends Component{
                 Condiciones_Legales:'',
                 Cod_QR:''
             })
+            this.getBoletos()
         })
         e.preventDefault();
     }
@@ -73,7 +74,8 @@ class App extends Component{
                             <ul id="nav-mobile" className="right hide-on-med-and-down">
                                 <li><a href="https://www.github.com">GitHub</a></li>
                                 <li><a href="https://reactjs.org">ReactJS</a></li>
-                                <li><a href="https://mongoose.org">mongoose</a></li>
+                                <li><a href="https://mongoose.org">Mongoose</a></li>
+                                <li><a href="https://react-materialize.github.io/#/">React-Materialize</a></li>
                                 <li></li> 
                             </ul>  
                         </div>
@@ -176,9 +178,24 @@ class App extends Component{
                                                     <p>
                                                         ID boleto: {BQRdigital._id}                                           
                                                     </p>
+                                                    <p>
+                                                        Fecha: {BQRdigital.Fecha}                                           
+                                                    </p>
+                                                    <p>
+                                                        Horario Abordaje: {BQRdigital.Abordaje}                                           
+                                                    </p>
+                                                    <p>
+                                                        Origen: {BQRdigital.Origen}                                           
+                                                    </p>
+                                                    <p>
+                                                        Destino: {BQRdigital.Destino}                                           
+                                                    </p>
+                                                    <p>
+                                                        Salida: {BQRdigital.Salida}                                           
+                                                    </p>
                                                 </div>
                                                 <div className="card-action">
-                                                    <a href="#">Eliminar</a>
+                                                    <button className='btn btn-light darken-4 pulse' >Eliminar</button>
                                                     <a href="#">Actualizar</a>
                                                 </div>
                                             </div>
