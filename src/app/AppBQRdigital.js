@@ -2,8 +2,8 @@ import React,{ Component } from 'react';
 
 
 class App extends Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
             Empresa:"",
             Asiento:"",
@@ -150,18 +150,42 @@ class App extends Component{
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th><h3>Boletos</h3></th>
+                                            <th><h3>Listado BQRdigital Boletos</h3></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr key={this.state.Boletos._id}>
-                                          <td>
-                                               
-                                          </td>
-                                        </tr>
+                                           <tr>
+                                               <td><p>hola querido 1</p></td>
+                                           </tr>
+                                           <tr>
+                                               <td><p>hola querido 2</p></td>
+                                           </tr>
+                                           <tr>
+                                               <td><p></p>hola querido 3</td>
+                                           </tr>
                                     </tbody>
                                 </table>
                             </div>
+                            {
+                                this.state.Boletos.map(BQRdigital =>{
+                                    return(
+                                        <div className="col s7 " key={BQRdigital._id}>
+                                            <div className="card blue-grey darken-1">
+                                                <div className="card-content white-text">
+                                                    <span className="card-title" >BQRdigital</span>
+                                                    <p>
+                                                        ID boleto: {BQRdigital._id}                                           
+                                                    </p>
+                                                </div>
+                                                <div className="card-action">
+                                                    <a href="#">Eliminar</a>
+                                                    <a href="#">Actualizar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )
+                                })
+                            }
                         </div>
                     </div>
             </div>    
