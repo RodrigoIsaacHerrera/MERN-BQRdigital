@@ -137,16 +137,17 @@ class App extends Component{
                                                         <input type="text" name="Salida" value={this.state.Salida} onChange={this.handleChange} placeholder="(*)"></input>
                                                     </div>
                                                     <br></br>
+                                                    <div className="input field col s12">
+                                                        <label>Tarifa</label>
+                                                        <input type="text" name="Tarifa" value={this.state.Tarifa} onChange={this.handleChange} placeholder="(*)"></input>
+                                                    </div>
+                                                    <br></br>
                                                     <div className="input field col s12" >
                                                         <label>Condiciones Legales Boleto</label>
                                                         <textarea  name="Condiciones_Legales" value={this.state.Condiciones_Legales} onChange={this.handleChange} placeholder="(*)" className="materialize-textarea"></textarea>
                                                     </div>
                                                     <br></br>
-                                                    <div className="input field col s12" >
-                                                        <label>Condiciones Legales Boleto</label>
-                                                        <textarea  name="Tarifa" value={this.state.Tarifa} onChange={this.handleChange} placeholder="(*)" className="materialize-textarea"></textarea>
-                                                    </div>
-                                                    <br></br>
+                                                   
                                                 </div>
                                                 <button type="submit" className="btn btn-light darken-4 pulse" /*onPress={()=>{this.addBoleto}}*/>
                                                     Simular
