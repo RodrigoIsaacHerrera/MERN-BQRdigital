@@ -14,7 +14,8 @@ class App extends Component{
             Salida:"",
             Condiciones_Legales:"",
             Cod_QR:"",
-            Boletos:[],
+            Tarifa:"",
+            Boletos:[]
         }
         this.handleChange =this.handleChange.bind(this);
         this.addBoleto = this.addBoleto.bind(this);
@@ -43,7 +44,8 @@ class App extends Component{
                 Abordaje:'',
                 Salida:'',
                 Condiciones_Legales:'',
-                Cod_QR:''
+                Cod_QR:'',
+                Tarifa:''
             })
             this.getBoletos()
         })
@@ -70,7 +72,7 @@ class App extends Component{
             <div className="8bc34a light-green">    
                     <nav> 
                         <div className="nav-wraper-fixed">
-                            <a href="/" className="brand-logo center-align"><span></span>BQRdigital</a>
+                            <a href="/" className="brand-logo center-align" style={{marginLeft:'30px'}}>BQRdigital</a>
                             <ul id="nav-mobile" className="right hide-on-med-and-down">
                                 <li><a href="https://www.github.com">GitHub</a></li>
                                 <li><a href="https://reactjs.org">ReactJS</a></li>
@@ -140,6 +142,11 @@ class App extends Component{
                                                         <textarea  name="Condiciones_Legales" value={this.state.Condiciones_Legales} onChange={this.handleChange} placeholder="(*)" className="materialize-textarea"></textarea>
                                                     </div>
                                                     <br></br>
+                                                    <div className="input field col s12" >
+                                                        <label>Condiciones Legales Boleto</label>
+                                                        <textarea  name="Tarifa" value={this.state.Tarifa} onChange={this.handleChange} placeholder="(*)" className="materialize-textarea"></textarea>
+                                                    </div>
+                                                    <br></br>
                                                 </div>
                                                 <button type="submit" className="btn btn-light darken-4 pulse" /*onPress={()=>{this.addBoleto}}*/>
                                                     Simular
@@ -174,29 +181,47 @@ class App extends Component{
                                         <div className="col s7 " key={BQRdigital._id}>
                                             <div className="card blue-grey darken-1">
                                                 <div className="card-content white-text">
-                                                    <span className="card-title" >BQRdigital</span>
+                                                    <span className="card-title" style={{color:'yellow'}} ><b>BQRdigital</b></span>
+                                                    <br></br>
                                                     <p>
-                                                        ID boleto: {BQRdigital._id}                                           
+                                                        ID boleto:&nbsp;&nbsp; {BQRdigital._id}                                           
                                                     </p>
+                                                    <br></br>
                                                     <p>
-                                                        Fecha: {BQRdigital.Fecha}                                           
+                                                        Fecha:&nbsp;&nbsp; {BQRdigital.Fecha}                                           
                                                     </p>
+                                                    <br></br>
                                                     <p>
-                                                        Horario Abordaje: {BQRdigital.Abordaje}                                           
+                                                     <b>Horario Abordaje:</b> &nbsp;&nbsp; {BQRdigital.Abordaje}                                           
                                                     </p>
+                                                    <br></br>
                                                     <p>
-                                                        Origen: {BQRdigital.Origen}                                           
+                                                        Origen:&nbsp;&nbsp; {BQRdigital.Origen}                                           
                                                     </p>
+                                                    <br></br>
                                                     <p>
-                                                        Destino: {BQRdigital.Destino}                                           
+                                                        Destino:&nbsp;&nbsp; {BQRdigital.Destino}                                           
                                                     </p>
+                                                    <br></br>
                                                     <p>
-                                                        Salida: {BQRdigital.Salida}                                           
+                                                        Salida:&nbsp;&nbsp; {BQRdigital.Salida}                                           
                                                     </p>
+                                                    <br></br>
+                                                    <p>
+                                                        Tarifa:&nbsp;&nbsp; {BQRdigital.Tarifa}                                           
+                                                    </p>
+                                                    <br></br>  
+                                                    <p style={{color:'#40ff00'}}> 
+                                                        <b >Coondicones Legales<br></br><br></br>{BQRdigital.Condiciones_Legales}</b>
+                                                    </p>
+                                                    
                                                 </div>
                                                 <div className="card-action">
-                                                    <button className='btn btn-light darken-4 pulse' ><b>Eliminar</b> &nbsp;<sub><i className='material-icons'>delete</i></sub></button>&nbsp;
-                                                    &nbsp;&nbsp;&nbsp;
+                                                    <button className='btn btn-light darken-4 pulse'><b>Eliminar</b> &nbsp;<sub><i className='material-icons'>delete</i></sub></button>
+                                                    &nbsp;
+                                                    &nbsp;
+                                                    &nbsp;
+                                                    &nbsp;
                                                     <button className='btn btn-light darken-4 pulse' ><b>Actualizar</b> &nbsp;<sub><i className='material-icons'>edit</i></sub></button>
                                                 </div>
                                             </div>

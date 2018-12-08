@@ -37,7 +37,8 @@ router.post('/',async(req,res)=>{
             Abordaje,
             Salida,
             Condiciones_Legales,
-            Cod_QR} = req.body;//cliente envia documento al servidor
+            Cod_QR,
+            Tarifa} = req.body;//cliente envia documento al servidor
         const boleto = new boletos({
             Empresa,
             Asiento,
@@ -47,7 +48,8 @@ router.post('/',async(req,res)=>{
             Abordaje,
             Salida,
             Condiciones_Legales,
-            Cod_QR});
+            Cod_QR,
+            Tarifa});
         await boleto.save();
         res.json({status: 'boleto registrado exitosamente'});//respuesta del servidor
     } catch (error) {
@@ -65,7 +67,8 @@ router.put('/:id',async(req,res)=>{
         Abordaje,
         salida,
         Condiciones_Legales,
-        Cod_QR
+        Cod_QR,
+        Tarifa
     } = req.body;
     const newboleto = ({
         Empresa,
@@ -76,7 +79,8 @@ router.put('/:id',async(req,res)=>{
         Abordaje,
         salida,
         Condiciones_Legales,
-        Cod_QR
+        Cod_QR,
+        Tarifa
     });
     await boletos.findByIdAndUpdate(req.params.id, newboleto)//actualiza a la base de datos
     res.send({status:'Boleto Actualizado'})
