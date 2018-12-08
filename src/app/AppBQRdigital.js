@@ -63,28 +63,45 @@ class App extends Component{
             })
             .catch((e)=>{console.error(e)})
     }
+    deleteBoleto(id){
+        //console.log('boleto eliminado',id)
+        if(confirm('Deseas proceder con Eliminacion?')){
+            fetch(`/api/boletos/${id}`,{
+                method:'DELETE',
+                headers:{'Accept':'application/json',
+                        'Content-Type':'application/json'
+                }
+            })
+            .then(data=>{
+                console.log(data);
+                M.toast({html:'Boleto BQRdigital Eliminado Satisfactoriamente'});
+                this.getBoletos();
+            })
+            .then(res=>res.json())
+        }
+    }
     handleChange(e){
         const { name, value } = e.target;
         this.setState({[name]:value})
     }
     render(){
         return(
-            <div className="8bc34a light-green">    
-                    <nav> 
-                        <div className="nav-wraper-fixed">
-                            <a href="/" className="brand-logo center-align" style={{marginLeft:'30px'}}>BQRdigital</a>
-                            <ul id="nav-mobile" className="right hide-on-med-and-down">
-                                <li><a href="https://www.github.com">GitHub</a></li>
-                                <li><a href="https://reactjs.org">ReactJS</a></li>
-                                <li><a href="https://mongoose.org">Mongoose</a></li>
-                                <li><a href="https://react-materialize.github.io/#/">React-Materialize</a></li>
-                                <li></li> 
-                            </ul>  
+            <div className="8bc34a light-green">  
+                     
+                    <nav style={{backgroundColor:'#546e7a'}}> 
+                        <div className="nav-wraper">
+                                <a href="/" className="brand-logo center-align"style={{marginLeft:'20px'}}>BQRdigital</a>
+                                <ul id="nav-mobile" className="right hide-on-med-and-down">
+                                    <li><a href="https://www.github.com">GitHub</a></li>
+                                    <li><a href="https://reactjs.org">ReactJS</a></li>
+                                    <li><a href="https://mongoose.org">Mongoose</a></li>
+                                    <li><a href="https://react-materialize.github.io/#/">React-Materialize</a></li>
+                                </ul>  
                         </div>
                     </nav>
-                    <br></br>
+                    
                     <div id="descripcion" className="container">
-                    <br></br>
+                        
                         <div className="row">
                             <div className="col s12">
                                 <h1>Tu Boleto puede SER DIGITAL con código QR</h1>
@@ -94,10 +111,10 @@ class App extends Component{
                     </div>
                     <div id="aplicacion" className="container">
                         <div className="row">
-                            <div className="col s6">
+                            <div className="col s7">
                                 <div className="card">
                                     <div className="card-content">
-                                            <h3>Boleto</h3>
+                                            <h4>Boleto</h4>
                                             <form onSubmit={this.addBoleto}>
                                                 <p></p>
                                                 <div className="row">
@@ -146,17 +163,17 @@ class App extends Component{
                                                         <label>Condiciones Legales Boleto</label>
                                                         <textarea  name="Condiciones_Legales" value={this.state.Condiciones_Legales} onChange={this.handleChange} placeholder="(*)" className="materialize-textarea"></textarea>
                                                     </div>
-                                                    <br></br>
+                                                    
                                                    
                                                 </div>
-                                                <button type="submit" className="btn btn-light darken-4 pulse" /*onPress={()=>{this.addBoleto}}*/>
-                                                    Simular
+                                                <button type="submit" className="btn btn-light darken-4 pulse">
+                                                    <b>Simular</b>&nbsp;<sub><i className='material-icons'>save</i></sub>
                                                 </button>
                                             </form>
                                     </div>
                                 </div>
                             </div>
-                            <div className="col s6">
+                            <div className="col s12">
                                 <table>
                                     <thead>
                                         <tr>
@@ -176,11 +193,12 @@ class App extends Component{
                                     </tbody>
                                 </table>
                             </div>
-                            {
-                                this.state.Boletos.map(BQRdigital =>{
-                                    return(
-                                        <div className="col s7 " key={BQRdigital._id}>
-                                            <div className="card blue-grey darken-1">
+                            <div>
+                                {
+                                    this.state.Boletos.map(BQRdigital =>{
+                                        return(
+                                            <div className="col s12" key={BQRdigital._id}>
+                                                <div className="card blue-grey darken-1">
                                                 <div className="card-content white-text">
                                                     <span className="card-title" style={{color:'yellow'}} ><b>BQRdigital</b></span>
                                                     <br></br>
@@ -214,24 +232,45 @@ class App extends Component{
                                                     <br></br>  
                                                     <p style={{color:'#40ff00'}}> 
                                                         <b >Coondicones Legales<br></br><br></br>{BQRdigital.Condiciones_Legales}</b>
-                                                    </p>
-                                                    
+                                                    </p>                                                   
                                                 </div>
                                                 <div className="card-action">
-                                                    <button className='btn btn-light darken-4 pulse'><b>Eliminar</b> &nbsp;<sub><i className='material-icons'>delete</i></sub></button>
-                                                    &nbsp;
-                                                    &nbsp;
-                                                    &nbsp;
-                                                    &nbsp;
-                                                    <button className='btn btn-light darken-4 pulse' ><b>Actualizar</b> &nbsp;<sub><i className='material-icons'>edit</i></sub></button>
+                                                    <button className='btn btn-light darken-4 pulse'onClick={()=>this.deleteBoleto(BQRdigital._id)}><b>Eliminar</b> &nbsp;<sub><i className='material-icons'>delete</i></sub></button>           
+                                                    {/*<button className='btn btn-light darken-4 pulse' onClick={}><b>Actualizar</b> &nbsp;<sub><i className='material-icons'>edit</i></sub></button>} */}
                                                 </div>
                                             </div>
-                                        </div>
-                                    )
-                                })
-                            }
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
                         </div>
-                    </div>
+                    </div>                 
+                    <footer className="page-footer">
+                        <div className="container">
+                            <div className="row">
+                                <div className="col l6 s12">
+                                    <h5 className="white-text">Footer Content</h5>
+                                    <p className="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+                                </div>
+                                <div className="col l4 offset-l2 s12">
+                                    <h5 className="white-text">Links</h5>
+                                    <ul>
+                                        <li><a className="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                                        <li><a className="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                                        <li><a className="grey-text text-lighten-3" href="#!">Link 3</a></li>
+                                        <li><a className="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="footer-copyright">
+                            <div className="container">
+                                 © 2014 Copyright Text
+                                <a className="grey-text text-lighten-4 right" href="#!">More Links</a>
+                            </div>
+                        </div>
+                    </footer>
             </div>    
         )
     }
