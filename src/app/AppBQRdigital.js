@@ -195,8 +195,9 @@ class App extends Component{
                                                     </p>
                                                 </div>
                                                 <div className="card-action">
-                                                    <button className='btn btn-light darken-4 pulse' >Eliminar</button>
-                                                    <a href="#">Actualizar</a>
+                                                    <button className='btn btn-light darken-4 pulse' ><b>Eliminar</b> &nbsp;<sub><i className='material-icons'>delete</i></sub></button>&nbsp;
+                                                    &nbsp;&nbsp;&nbsp;
+                                                    <button className='btn btn-light darken-4 pulse' ><b>Actualizar</b> &nbsp;<sub><i className='material-icons'>edit</i></sub></button>
                                                 </div>
                                             </div>
                                         </div>
