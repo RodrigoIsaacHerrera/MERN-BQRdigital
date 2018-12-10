@@ -15,40 +15,72 @@ class App extends Component{
             Condiciones_Legales:"",
             Cod_QR:"",
             Tarifa:"",
-            Boletos:[]
+            Boletos:[],
+            _id:""
         }
         this.handleChange =this.handleChange.bind(this);
         this.addBoleto = this.addBoleto.bind(this);
     }
     addBoleto(e){
-        fetch('/api/boletos',{
-               method:'POST',
-               body:JSON.stringify(this.state),
-               headers:{
-                   'Accept':'application/json',
-                   'Content-Type':'application/json',
-               }
-            }
-        )
-        .then(res=>res.json())
-        .catch(err=>console.error(err))
-        .then(data=>{
-            console.log(data)
-            M.toast({html:'BOLETO REGISTRADO'})
-            this.setState({
-                Empresa:'',
-                Asiento:'',
-                Origen:'',
-                Destino:'',
-                Fecha:'',
-                Abordaje:'',
-                Salida:'',
-                Condiciones_Legales:'',
-                Cod_QR:'',
-                Tarifa:''
+        if (this.state._id) {
+            fetch(`/api/boletos/${this.state._id}`,{
+                method:'PUT',
+                body:JSON.stringify(this.state),
+                headers:{
+                    'Accept':'application/json',
+                    'Content-Type':'application/json'
+                }
             })
-            this.getBoletos()
-        })
+            .then(res=>res.json())
+            .then(data=>{
+                console.log(data)
+                M.toast({html:'Boleto Modificado'})
+                this.setState({
+                    Empresa:'',
+                    Asiento:'',
+                    Origen:'',
+                    Destino:'',
+                    Fecha:'',
+                    Abordaje:'',
+                    Salida:'',
+                    Condiciones_Legales:'',
+                    Cod_QR:'',
+                    Tarifa:'',
+                    _id:''
+                })
+                this.getBoletos()
+            })
+
+        } else {
+            fetch('/api/boletos',{
+                method:'POST',
+                body:JSON.stringify(this.state),
+                headers:{
+                    'Accept':'application/json',
+                    'Content-Type':'application/json',
+                }
+             }
+            )
+            .then(res=>res.json())
+            .catch(err=>console.error(err))
+            .then(data=>{
+                 console.log(data)
+                 M.toast({html:'BOLETO REGISTRADO'})
+                 this.setState({
+                 Empresa:'',
+                 Asiento:'',
+                 Origen:'',
+                 Destino:'',
+                 Fecha:'',
+                 Abordaje:'',
+                 Salida:'',
+                 Condiciones_Legales:'',
+                 Cod_QR:'',
+                 Tarifa:''
+                })
+             this.getBoletos()
+            })
+        }
         e.preventDefault();
     }
     componentDidMount(){
@@ -58,10 +90,10 @@ class App extends Component{
         fetch('/api/boletos')
             .then(res => res.json())
             .then((data) =>{ 
-                this.setState({Boletos:data}),
+                this.setState({Boletos:data})
                 console.log(this.state.Boletos)
             })
-            .catch((e)=>{console.error(e)})
+        .catch((e)=>{console.error(e)})
     }
     deleteBoleto(id){
         //console.log('boleto eliminado',id)
@@ -69,16 +101,38 @@ class App extends Component{
             fetch(`/api/boletos/${id}`,{
                 method:'DELETE',
                 headers:{'Accept':'application/json',
-                        'Content-Type':'application/json'
+                        'Content-Type':'application/json',
                 }
             })
             .then(data=>{
                 console.log(data);
-                M.toast({html:'Boleto BQRdigital Eliminado Satisfactoriamente'});
-                this.getBoletos();
+                M.toast({html:'Boleto BQRdigital Eliminado Satisfactoriamente'})
+                this.getBoletos()
             })
             .then(res=>res.json())
         }
+    }
+    editBoleto(id){
+        fetch(`/api/boletos/${id}`)
+        .then(res=>res.json())
+        .then(data=>{
+            console.log(data)
+            this.setState({
+                Empresa:data.Empresa,
+                Asiento:data.Asiento,
+                Origen:data.Origen,
+                Destino:data.Destino,
+                Fecha:data.Fecha,
+                Abordaje:data.Abordaje,
+                Salida:data.Salida,
+                Condiciones_Legales:data.Condiciones_Legales,
+                Cod_QR:data.Cod_QR,
+                Tarifa:data.Tarifa,
+                _id:data._id
+            })
+        })
+        .catch((e)=>console.log(e));
+        //.then((focus())
     }
     handleChange(e){
         const { name, value } = e.target;
@@ -234,9 +288,9 @@ class App extends Component{
                                                         <b >Coondicones Legales<br></br><br></br>{BQRdigital.Condiciones_Legales}</b>
                                                     </p>                                                   
                                                 </div>
-                                                <div className="card-action">
-                                                    <button className='btn btn-light darken-4 pulse'onClick={()=>this.deleteBoleto(BQRdigital._id)}><b>Eliminar</b> &nbsp;<sub><i className='material-icons'>delete</i></sub></button>           
-                                                    {/*<button className='btn btn-light darken-4 pulse' onClick={}><b>Actualizar</b> &nbsp;<sub><i className='material-icons'>edit</i></sub></button>} */}
+                                                <div className="card-action"style={{paddingLeft:'600px'}}>
+                                                    <button className='btn btn-light darken-4'onClick={()=>this.deleteBoleto(BQRdigital._id)}><b>Eliminar</b> &nbsp;<sub><i className='material-icons'>delete</i></sub></button>           
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;<button className='btn btn-light darken-4' onClick={()=>this.editBoleto(BQRdigital._id)}><b>Modificar</b> &nbsp;<sub><i className='material-icons'>edit</i></sub></button>
                                                 </div>
                                             </div>
                                             </div>

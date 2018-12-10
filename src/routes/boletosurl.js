@@ -58,38 +58,47 @@ router.post('/',async(req,res)=>{
 });
 //Actualiza schema boleto
 router.put('/:id',async(req,res)=>{
-    const{
-        Empresa,
-        Asiento,
-        Origen,
-        Destino,
-        Fecha,
-        Abordaje,
-        salida,
-        Condiciones_Legales,
-        Cod_QR,
-        Tarifa
-    } = req.body;
-    const newboleto = ({
-        Empresa,
-        Asiento,
-        Origen,
-        Destino,
-        Fecha,
-        Abordaje,
-        salida,
-        Condiciones_Legales,
-        Cod_QR,
-        Tarifa
-    });
-    await boletos.findByIdAndUpdate(req.params.id, newboleto)//actualiza a la base de datos
-    res.send({status:'Boleto Actualizado'})
-    console.log(err); 
+    try {
+        const{
+            Empresa,
+            Asiento,
+            Origen,
+            Destino,
+            Fecha,
+            Abordaje,
+            salida,
+            Condiciones_Legales,
+            Cod_QR,
+            Tarifa
+        } = req.body;
+        const newboleto = ({
+            Empresa,
+            Asiento,
+            Origen,
+            Destino,
+            Fecha,
+            Abordaje,
+            salida,
+            Condiciones_Legales,
+            Cod_QR,
+            Tarifa
+        });
+        await boletos.findByIdAndUpdate(req.params.id, newboleto)//actualiza a la base de datos
+        res.send({status:'Boleto Actualizado'})
+    } catch (error) {
+        console.log(error); 
+    }
+    
 });
 //Elimina  boleto
 router.delete('/:id',async(req,res)=>{
-    await boletos.findByIdAndRemove(req.params.id)//actualiza a la base de datos    
-    res.json({status:'Boleto Eliminado'});
-    console.log(err);
+    try {
+        await boletos.findByIdAndRemove(req.params.id)//actualiza a la base de datos    
+        res.json({status:'Boleto Eliminado'});
+    } catch (error) {
+        console.log(error);
+    }
+    
+    
 });
 module.exports = router;
