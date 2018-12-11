@@ -140,26 +140,91 @@ class App extends Component{
     }
     render(){
         return(
-            <div className="8bc34a light-green">  
-                     
+            <div className="8bc34a light-green">               
                     <nav style={{backgroundColor:'#546e7a'}}> 
                         <div className="nav-wraper">
-                                <a href="/" className="brand-logo center-align"style={{marginLeft:'20px'}}>BQRdigital</a>
+                                <a href="/" className="brand-logo center-align"style={{marginLeft:20}}>BQRdigital</a>
                                 <ul id="nav-mobile" className="right hide-on-med-and-down">
                                     <li><a href="https://www.github.com">GitHub</a></li>
                                     <li><a href="https://reactjs.org">ReactJS</a></li>
                                     <li><a href="https://mongoose.org">Mongoose</a></li>
-                                    <li><a href="https://react-materialize.github.io/#/">React-Materialize</a></li>
+                                    <li><a href="https://expressjs.com/">Expressjs</a></li>
                                 </ul>  
                         </div>
-                    </nav>
-                    
-                    <div id="descripcion" className="container">
-                        
+                    </nav>              
+                    <div id="descripcion" className="container">    
                         <div className="row">
                             <div className="col s12">
-                                <h1>Tu Boleto puede SER DIGITAL con código QR</h1>
-                                <h2>Atrevete a cambiar el mundo y unete a este proyecto</h2>
+                                <h1><b>BQRdigital Travel-Project, para ideas enormes... <br></br><ln>BOLETO DIGITAL CON CÓDIGO QR</ln></b></h1>
+                                <br></br>
+                                <h3 style={{color:'#311b92'}}>
+                                    <line>Sin duda alguna, el transporte de pasajeros, es una de las labores que</line>
+                                    <line> carece cada día mas de modernización en la gestión de documentos correspondiente al</line>
+                                    <line> servicio de traslado de pasajeros y el control de los abordajes.</line>
+                                    <line> Es por ello que BQRdigital desea poder cambiar el mundo para siempre</line>
+                                    <line> en la experiencia de usuario que brindan dichas empresas de trasnporte masivo <b>en el proceso de abordaje.</b></line> 
+                                </h3> 
+                                <br></br>
+                                <h3 style={{color:'#311b92'}}>Si eres dueño de una empresa de traslados de pasajeros y le interesa mejorar la expericencia de usuario con:</h3> 
+                                <br></br>
+                                <ul style={{color:'white'}}>
+                                    <li><h3><b>FACEBOOK ING</b></h3></li>
+                                    <li><h3><b>GOOGLE V8 SERVER ENGINE</b></h3></li>
+                                    <li><h3><b>MONGODB</b></h3></li>
+                                </ul>
+                                <br></br>
+                                <h4 style={{color:'#311b92'}}>solo debes contactarnos... y
+                                </h4>
+                                <h4 style={{color:'#311b92'}}>SI ERES DESARROLLADOR, PUEDES AYUDARNOS A CAMBIAR EL MUNDO PARA BIEN, ES TOTALMENTE GRATIS WOHOO!!</h4>
+                                <br></br>
+                                <br></br>
+                            </div>
+                            <hr></hr>
+                            <div className="col s12" >
+                                <br></br> 
+                                <table style={{backgroundColor:'#6a1b9a'}}>
+                                    <thead>
+                                        <tr>
+                                            <th style={{padding:35,color:'orange'}}><h3><b>IMPACTOS DE ESTE PROYECTO<br></br> AL MUNDO</b></h3></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                           <tr>
+                                               <td style={{padding:25,color:'#8bc34a'}}>
+                                                   <h4><b>IMPACTO ECOLÓGICO</b></h4>
+                                                   <br></br>
+                                                   <h5>
+                                                        <line>Este proyecto generará cambios <b>positivos para el MUNDO</b></line>
+                                                        <line>de forma simple, <b>menos boletos de papel, mas árboles ;)</b></line>
+                                                   </h5>
+                                               </td>
+                                           </tr>
+                                           <tr>
+                                               <td style={{padding:25,color:'#8bc34a'}}>
+                                                   <h4><b>IMPACTO SOCIAL</b></h4>
+                                                   <br></br>
+                                                   <h5>
+                                                        <line>Este impacto en particular es un modo de mejorar algunos hábitos culturales</line>
+                                                        <line>introduciendo <b>PUNTUALIDAD, FACILIDAD PARA PLANIFICAR VIAJES Y RESPONSABILIDAD SOCIAL.</b></line>
+                                                   </h5>
+                                               </td>
+                                           </tr>
+                                           <tr>
+                                               <td style={{padding:25,color:'#8bc34a'}}>
+                                                    <h4><b>IMPACTO EMPRESARIAL Y SISTEMATICO</b></h4>
+                                                    <br></br>
+                                                    <h5>
+                                                        <line>Sin duda para dar una organización y mayor órden que carecen hoy los sistemas de ventas</line>
+                                                        <line> de las empresas de buses, es el abordaje en la salida del bus lo cual es incorrecto.</line>
+                                                        <line> Es todo un caos, y <b>este proyecto sin este requerimiento de negocio</b></line> 
+                                                        <line><b>(definir un tramo de abordaje distinto del de partida o salida)</b></line>
+                                                        <line> en su sistema ocacionara que nuestro producto no sea viable de implementar, ademas le permite evitar problemas</line>
+                                                        <line> y dicusiones con los usuarios del servicio. En resumen impacta su sitema empresarial, somo agentes del cambio.</line>
+                                                    </h5>
+                                               </td>
+                                           </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -170,7 +235,7 @@ class App extends Component{
                                     <div className="card-content">
                                             <h4>Boleto</h4>
                                             <form onSubmit={this.addBoleto}>
-                                                <p></p>
+                                                <p>Obligatorios (*)</p>
                                                 <div className="row">
                                                     <br></br>
                                                     <div className="input field col s12">
@@ -225,40 +290,23 @@ class App extends Component{
                                     </div>
                                 </div>
                             </div>
-                            <div className="col s12">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th><h3>Listado BQRdigital Boletos</h3></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                           <tr>
-                                               <td><p>hola querido 1</p></td>
-                                           </tr>
-                                           <tr>
-                                               <td><p>hola querido 2</p></td>
-                                           </tr>
-                                           <tr>
-                                               <td><p></p>hola querido 3</td>
-                                           </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div>
+                            <div id="BQRdigital_boleto">
                                 {
                                     this.state.Boletos.map(BQRdigital =>{
                                         return(
                                             <div className="col s12" key={BQRdigital._id}>
                                                 <div className="card blue-grey darken-1">
-                                                    <div className="card-content white-text">
+                                                        <div 
+                                                        className="card-content white-text" 
+                                                        
+                                                    >
                                                         <span className="card-title" style={{color:'yellow'}} ><b>BQRdigital</b></span>
                                                         <br></br>
                                                         <QRCode
                                                             bgColor="#FFFFFF"
                                                             fgColor="#000000"
                                                             level="L"
-                                                            style={{ width: 256}}
+                                                            style={{ width: 160}}
                                                             value={`/api/boletos/${BQRdigital._id}`}
                                                         />
                                                         <br></br>
@@ -288,13 +336,13 @@ class App extends Component{
                                                         <br></br> 
 
                                                             <p style={{color:'#40ff00'}}> 
-                                                        <b >Coondicones Legales<br></br><br></br>{BQRdigital.Condiciones_Legales}</b>
+                                                        <b >Coondiciones Legales Servicio de Transportes<br></br><br></br>{BQRdigital.Condiciones_Legales}</b>
                                                         </p>                                                   
                                                     </div>
-                                                    <div className="card-action">
-                                                    <button className='btn btn-light darken-4'onClick={()=>this.deleteBoleto(BQRdigital._id)} style={{marginTop:'15px',position:'right'}}><b>Eliminar</b> &nbsp;<sub><i className='material-icons'>delete</i></sub></button>           
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;<button className='btn btn-light darken-4' onClick={()=>this.editBoleto(BQRdigital._id)} style={{marginTop:'15px',position:'right'}}><b>Modificar</b> &nbsp;<sub><i className='material-icons'>edit</i></sub></button>
-                                                </div>
+                                                        <div className="card-action">
+                                                        <button className='btn btn-light darken-4'onClick={()=>this.deleteBoleto(BQRdigital._id)} style={{marginTop:'15px',position:'right'}}><b>Eliminar</b> &nbsp;<sub><i className='material-icons'>delete</i></sub></button>           
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;<button className='btn btn-light darken-4' onClick={()=>this.editBoleto(BQRdigital._id)} style={{marginTop:'15px',position:'right'}}><b>Modificar</b> &nbsp;<sub><i className='material-icons'>edit</i></sub></button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         )
@@ -323,7 +371,7 @@ class App extends Component{
                         </div>
                         <div className="footer-copyright">
                             <div className="container">
-                                 © 2018 Copyright Text
+                                 © 2018 MERN-VAP-Project
                                 <a className="grey-text text-lighten-4 right" href="#!">More Links</a>
                             </div>
                         </div>
