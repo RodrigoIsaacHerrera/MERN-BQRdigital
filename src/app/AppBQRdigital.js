@@ -288,9 +288,9 @@ class App extends Component{
                                                         <b >Coondicones Legales<br></br><br></br>{BQRdigital.Condiciones_Legales}</b>
                                                     </p>                                                   
                                                 </div>
-                                                <div className="card-action"style={{paddingLeft:'600px'}}>
-                                                    <button className='btn btn-light darken-4'onClick={()=>this.deleteBoleto(BQRdigital._id)}><b>Eliminar</b> &nbsp;<sub><i className='material-icons'>delete</i></sub></button>           
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;<button className='btn btn-light darken-4' onClick={()=>this.editBoleto(BQRdigital._id)}><b>Modificar</b> &nbsp;<sub><i className='material-icons'>edit</i></sub></button>
+                                                <div className="card-action">
+                                                    <button className='btn btn-light darken-4'onClick={()=>this.deleteBoleto(BQRdigital._id)} style={{marginTop:'15px',position:'right'}}><b>Eliminar</b> &nbsp;<sub><i className='material-icons'>delete</i></sub></button>           
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;<button className='btn btn-light darken-4' onClick={()=>this.editBoleto(BQRdigital._id)} style={{marginTop:'15px',position:'right'}}><b>Modificar</b> &nbsp;<sub><i className='material-icons'>edit</i></sub></button>
                                                 </div>
                                             </div>
                                             </div>
@@ -320,7 +320,7 @@ class App extends Component{
                         </div>
                         <div className="footer-copyright">
                             <div className="container">
-                                 © 2014 Copyright Text
+                                 © 2018 Copyright Text
                                 <a className="grey-text text-lighten-4 right" href="#!">More Links</a>
                             </div>
                         </div>
