@@ -1,5 +1,5 @@
 import React,{ Component } from 'react';
-
+import { QRCode } from 'react-qr-svg';
 
 class App extends Component{
     constructor(props){
@@ -22,7 +22,7 @@ class App extends Component{
         this.addBoleto = this.addBoleto.bind(this);
     }
     addBoleto(e){
-        if (this.state._id) {
+        if(this.state._id){
             fetch(`/api/boletos/${this.state._id}`,{
                 method:'PUT',
                 body:JSON.stringify(this.state),
@@ -217,8 +217,6 @@ class App extends Component{
                                                         <label>Condiciones Legales Boleto</label>
                                                         <textarea  name="Condiciones_Legales" value={this.state.Condiciones_Legales} onChange={this.handleChange} placeholder="(*)" className="materialize-textarea"></textarea>
                                                     </div>
-                                                    
-                                                   
                                                 </div>
                                                 <button type="submit" className="btn btn-light darken-4 pulse">
                                                     <b>Simular</b>&nbsp;<sub><i className='material-icons'>save</i></sub>
@@ -253,46 +251,51 @@ class App extends Component{
                                         return(
                                             <div className="col s12" key={BQRdigital._id}>
                                                 <div className="card blue-grey darken-1">
-                                                <div className="card-content white-text">
-                                                    <span className="card-title" style={{color:'yellow'}} ><b>BQRdigital</b></span>
-                                                    <br></br>
-                                                    <p>
-                                                        ID boleto:&nbsp;&nbsp; {BQRdigital._id}                                           
-                                                    </p>
-                                                    <br></br>
-                                                    <p>
+                                                    <div className="card-content white-text">
+                                                        <span className="card-title" style={{color:'yellow'}} ><b>BQRdigital</b></span>
+                                                        <br></br>
+                                                        <QRCode
+                                                            bgColor="#FFFFFF"
+                                                            fgColor="#000000"
+                                                            level="L"
+                                                            style={{ width: 256}}
+                                                            value={`/api/boletos/${BQRdigital._id}`}
+                                                        />
+                                                        <br></br>
+                                                        <p>
                                                         Fecha:&nbsp;&nbsp; {BQRdigital.Fecha}                                           
-                                                    </p>
-                                                    <br></br>
-                                                    <p>
-                                                     <b>Horario Abordaje:</b> &nbsp;&nbsp; {BQRdigital.Abordaje}                                           
-                                                    </p>
-                                                    <br></br>
-                                                    <p>
+                                                        </p>
+                                                        <br></br>
+                                                        <p>
+                                                        <b>Horario Abordaje:</b> &nbsp;&nbsp; {BQRdigital.Abordaje}                                           
+                                                        </p>
+                                                        <br></br>
+                                                        <p>
                                                         Origen:&nbsp;&nbsp; {BQRdigital.Origen}                                           
-                                                    </p>
-                                                    <br></br>
-                                                    <p>
-                                                        Destino:&nbsp;&nbsp; {BQRdigital.Destino}                                           
-                                                    </p>
-                                                    <br></br>
-                                                    <p>
-                                                        Salida:&nbsp;&nbsp; {BQRdigital.Salida}                                           
-                                                    </p>
-                                                    <br></br>
-                                                    <p>
-                                                        Tarifa:&nbsp;&nbsp; {BQRdigital.Tarifa}                                           
-                                                    </p>
-                                                    <br></br>  
-                                                    <p style={{color:'#40ff00'}}> 
+                                                        </p>
+                                                        <br></br>
+                                                        <p>
+                                                            Destino:&nbsp;&nbsp; {BQRdigital.Destino}                                           
+                                                        </p>
+                                                        <br></br>
+                                                        <p>
+                                                            Salida:&nbsp;&nbsp; {BQRdigital.Salida}                                           
+                                                        </p>
+                                                        <br></br>
+                                                        <p>
+                                                            Tarifa:&nbsp;&nbsp; {BQRdigital.Tarifa}                                           
+                                                        </p>
+                                                        <br></br> 
+
+                                                            <p style={{color:'#40ff00'}}> 
                                                         <b >Coondicones Legales<br></br><br></br>{BQRdigital.Condiciones_Legales}</b>
-                                                    </p>                                                   
-                                                </div>
-                                                <div className="card-action">
+                                                        </p>                                                   
+                                                    </div>
+                                                    <div className="card-action">
                                                     <button className='btn btn-light darken-4'onClick={()=>this.deleteBoleto(BQRdigital._id)} style={{marginTop:'15px',position:'right'}}><b>Eliminar</b> &nbsp;<sub><i className='material-icons'>delete</i></sub></button>           
                                                     &nbsp;&nbsp;&nbsp;&nbsp;<button className='btn btn-light darken-4' onClick={()=>this.editBoleto(BQRdigital._id)} style={{marginTop:'15px',position:'right'}}><b>Modificar</b> &nbsp;<sub><i className='material-icons'>edit</i></sub></button>
                                                 </div>
-                                            </div>
+                                                </div>
                                             </div>
                                         )
                                     })

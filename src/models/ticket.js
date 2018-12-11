@@ -12,6 +12,6 @@ const ticketschema = new Schema({
     Salida:  {type:String,required:true},
     Condiciones_Legales:{type: String, required:true},
     Cod_QR:{type:String,require:false},
-    Tarifa:{type:Number,required:false}
+    Tarifa:{type:String,required:false}
 })
 module.exports = mongoose.model('ticket', ticketschema);
