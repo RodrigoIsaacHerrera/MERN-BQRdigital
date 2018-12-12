@@ -155,7 +155,7 @@ class App extends Component{
                     <div id="descripcion" className="container">    
                         <div className="row">
                             <div className="col s12">
-                                <h1><b>BQRdigital Travel-Project, para ideas enormes... <br></br><ln>BOLETO DIGITAL CON CÓDIGO QR</ln></b></h1>
+                                <h1 style={{color:'white'}}><b>BQRdigital Travel-Project, para ideas enormes... <br></br><ln>BOLETO DIGITAL CON CÓDIGO QR</ln></b></h1>
                                 <br></br>
                                 <h3 style={{color:'#311b92'}}>
                                     <line>Sin duda alguna, el transporte de pasajeros, es una de las labores que</line>
@@ -191,7 +191,7 @@ class App extends Component{
                                     <tbody>
                                            <tr>
                                                <td style={{padding:25,color:'#8bc34a'}}>
-                                                   <h4><b>IMPACTO ECOLÓGICO</b></h4>
+                                                   <h4 style={{color:'orange'}}><b>IMPACTO ECOLÓGICO</b></h4>
                                                    <br></br>
                                                    <h5>
                                                         <line>Este proyecto generará cambios <b>positivos para el MUNDO</b></line>
@@ -201,7 +201,7 @@ class App extends Component{
                                            </tr>
                                            <tr>
                                                <td style={{padding:25,color:'#8bc34a'}}>
-                                                   <h4><b>IMPACTO SOCIAL</b></h4>
+                                                   <h4 style={{color:'orange'}}><b>IMPACTO SOCIAL</b></h4>
                                                    <br></br>
                                                    <h5>
                                                         <line>Este impacto en particular es un modo de mejorar algunos hábitos culturales</line>
@@ -211,7 +211,7 @@ class App extends Component{
                                            </tr>
                                            <tr>
                                                <td style={{padding:25,color:'#8bc34a'}}>
-                                                    <h4><b>IMPACTO EMPRESARIAL Y SISTEMATICO</b></h4>
+                                                    <h4 style={{color:'orange'}} ><b>IMPACTO EMPRESARIAL Y SISTEMATICO</b></h4>
                                                     <br></br>
                                                     <h5>
                                                         <line>Sin duda para dar una organización y mayor órden que carecen hoy los sistemas de ventas</line>
@@ -302,24 +302,26 @@ class App extends Component{
                                                     >
                                                         <span className="card-title" style={{color:'yellow'}} ><b>BQRdigital</b></span>
                                                         <br></br>
+                                                        <br></br>
                                                         <QRCode
                                                             bgColor="#FFFFFF"
                                                             fgColor="#000000"
                                                             level="L"
-                                                            style={{ width: 160}}
-                                                            value={`/api/boletos/${BQRdigital._id}`}
+                                                            style={{ width: 250}}
+                                                            value={`http://192.168.0.12:1989/api/boletos/${BQRdigital._id}`}
                                                         />
                                                         <br></br>
+                                                        <br></br>
                                                         <p>
-                                                        Fecha:&nbsp;&nbsp; {BQRdigital.Fecha}                                           
+                                                            Fecha:&nbsp;&nbsp; {BQRdigital.Fecha}                                           
                                                         </p>
                                                         <br></br>
                                                         <p>
-                                                        <b>Horario Abordaje:</b> &nbsp;&nbsp; {BQRdigital.Abordaje}                                           
+                                                            <b>Horario Abordaje:</b> &nbsp;&nbsp; {BQRdigital.Abordaje}                                           
                                                         </p>
                                                         <br></br>
                                                         <p>
-                                                        Origen:&nbsp;&nbsp; {BQRdigital.Origen}                                           
+                                                            Origen:&nbsp;&nbsp; {BQRdigital.Origen}                                           
                                                         </p>
                                                         <br></br>
                                                         <p>
@@ -334,9 +336,8 @@ class App extends Component{
                                                             Tarifa:&nbsp;&nbsp; {BQRdigital.Tarifa}                                           
                                                         </p>
                                                         <br></br> 
-
-                                                            <p style={{color:'#40ff00'}}> 
-                                                        <b >Coondiciones Legales Servicio de Transportes<br></br><br></br>{BQRdigital.Condiciones_Legales}</b>
+                                                        <p style={{color:'#40ff00'}}> 
+                                                            <b>Coondiciones Legales Servicio de Transportes<br></br><br></br>{BQRdigital.Condiciones_Legales}</b>
                                                         </p>                                                   
                                                     </div>
                                                         <div className="card-action">
@@ -371,8 +372,8 @@ class App extends Component{
                         </div>
                         <div className="footer-copyright">
                             <div className="container">
-                                 © 2018 MERN-VAP-Project
-                                <a className="grey-text text-lighten-4 right" href="#!">More Links</a>
+                                 © 2018 MERN-VAP-PROJECT
+                                <a className="grey-text text-lighten-4 right" href="#!">Linkedin</a>
                             </div>
                         </div>
                     </footer>
