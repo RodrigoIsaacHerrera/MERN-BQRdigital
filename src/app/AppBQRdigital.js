@@ -308,7 +308,7 @@ class App extends Component{
                                                             fgColor="#000000"
                                                             level="L"
                                                             style={{ width: 250}}
-                                                            value={`http://192.168.0.12:1989/api/boletos/${BQRdigital._id}`}
+                                                            value={`http://10.251.192.148:1989/api/boletos/${BQRdigital._id}`}
                                                         />
                                                         <br></br>
                                                         <br></br>
