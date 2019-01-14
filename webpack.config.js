@@ -3,7 +3,7 @@ module.exports = {
      entry: './src/app/indexclient.js',
      output: {
          path: __dirname + '/src/public',
-         filename: 'boundle.js'
+         filename: 'bundle.js'
     },
     module:{
         rules:[{
