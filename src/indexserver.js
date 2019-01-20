@@ -2,7 +2,7 @@
 const express = require('express');
 const app = express();
 const morgan = require('morgan');//este modulo se utiliza como middleware (use)
-const path = require('path'); //permite parsear directiorios segun el sistema operativo
+const path = require('path'); //permite parsear directorios segun el sistema operativo
 const { mongoose } = require('./database');//llamado a archivo indexserver.js
 
 //Settings
