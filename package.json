@@ -21,7 +21,7 @@
   "homepage": "https://github.com/RodrigoIsaacHerrera/MERN-BQRdigital#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "mongoose": "^5.9.26",
+    "mongoose": "^5.13.15",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
