@@ -1,0 +1,12 @@
+.git
+.azure
+.vscode
+node_modules
+.env
+.env.*
+*.stackdump
+README
+README.md
+RUNBOOK.md
+SECURITY-REVIEW.md
+src/public/bundle.js

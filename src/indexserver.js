@@ -1,20 +1,53 @@
-//archivo principal EXPRESS NODEJS que levanta el sistema. inicializa el servidor y sus modulos
 const express = require('express');
-const app = express();
-const morgan = require('morgan');//este modulo se utiliza como middleware (use)
-const path = require('path'); //permite parsear directiorios segun el sistema operativo
-const { mongoose } = require('./database');//llamado a archivo indexserver.js
+const morgan = require('morgan');
+const mongoose = require('mongoose');
+const path = require('path');
+const connectDatabase = require('./database');
+const ticketModel = require('./models/ticket');
+const createBoletosRouter = require('./routes/boletosurl');
 
-//Settings
-app.set('port', process.env.PORT || 1989 );//pocess.env.P... permite pasar el puerto de una nunbe si la hay.
-//Middlewares
-app.use(morgan('dev'));//configuracion de middleware morgan.
-app.use(express.json());//fundamental para permitir recibir y enviar formato documento json.
-//Routes
-app.use('/api/boletos',require('./routes/boletosurl'));
-//Static files
-app.use(express.static(path.join(__dirname,'public')));//indica donde estara el codgi standart(html,css,js)
-// up-server
-app.listen(app.get('port'),()=>{
-    console.log(`Server on port ${app.get('port')} levantado!!`);
-});
+function createApp(options = {}) {
+    const apiToken = options.apiToken === undefined
+        ? process.env.API_TOKEN
+        : options.apiToken;
+
+    if (typeof apiToken !== 'string' || apiToken.trim().length === 0) {
+        throw new Error('API_TOKEN is required to start the application.');
+    }
+
+    const app = express();
+    const model = options.ticketModel || ticketModel;
+    const isDatabaseReady = options.isDatabaseReady
+        || (() => mongoose.connection.readyState === 1);
+
+    app.set('port', process.env.PORT || 1989);
+    app.use(morgan('dev'));
+    app.use(express.json({ limit: '10kb' }));
+    app.get('/healthz', (req, res) => {
+        const ready = isDatabaseReady();
+        return res.status(ready ? 200 : 503).json({
+            status: ready ? 'ok' : 'unavailable'
+        });
+    });
+    app.use('/api/boletos', createBoletosRouter(model, apiToken));
+    app.use(express.static(path.join(__dirname, 'public')));
+
+    return app;
+}
+
+if (require.main === module) {
+    const app = createApp();
+
+    connectDatabase()
+        .then(() => {
+            app.listen(app.get('port'), '0.0.0.0', () => {
+                console.log(`MongoDB connected. Server listening on port ${app.get('port')}.`);
+            });
+        })
+        .catch((error) => {
+            console.error('Unable to connect to MongoDB:', error);
+            process.exitCode = 1;
+        });
+}
+
+module.exports = createApp;
