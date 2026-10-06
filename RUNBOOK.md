@@ -62,6 +62,18 @@ Expected result: `healthy`. The `/healthz` endpoint returns `200` only after the
 docker rm -f bqrdigital
 ```
 
+Alternatively, from Bash (including Git Bash or WSL), export the required configuration and use the project scripts:
+
+```sh
+export API_TOKEN="<the generated token>"
+export MONGODB_URI="mongodb://host.docker.internal:27017/BQRdigital"
+bash .sh/start.sh
+```
+
+The start script calls `.sh/build.sh` before creating the container. `HOST_PORT` can override the host-side port (default `1989`). `bash .sh/stop.sh` stops the application container and then invokes `.sh/clear.sh --yes`, removing the container and its `mern-bqrdigital:local` image to free resources. To remove the project container and image without stopping it first, run `bash .sh/clear.sh`; the script asks for confirmation.
+
+MongoDB is external and the application container does not own its database data. If MongoDB is running in Docker and its data is in a Docker volume, identify the correct volume, remove the MongoDB container intentionally, then run `bash .sh/clear-data.sh <volume-name>`. This separate script asks for confirmation and refuses to remove a volume still attached to a container. Use `--yes` only when you have verified the exact volume name. If MongoDB is installed locally or hosted elsewhere, its data is not managed by these scripts.
+
 ## 4. Run automated tests
 
 In another terminal:

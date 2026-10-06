@@ -56,16 +56,13 @@ The application listens on port `1989` by default. Set `PORT` to use another por
 
 The production image uses Node.js 22 on Alpine, builds and tests the React client in a multi-stage build, and contains only runtime dependencies in its final stage. It runs as the unprivileged `node` user, removes npm from the runtime image, and exposes `/healthz` for container health checks. MongoDB is external and is not included in the image.
 
-```powershell
-docker build -t mern-bqrdigital:local .
-docker run --name bqrdigital `
-  -p 1989:1989 `
-  -e API_TOKEN=$env:API_TOKEN `
-  -e MONGODB_URI="mongodb://host.docker.internal:27017/BQRdigital" `
-  mern-bqrdigital:local
+```sh
+export API_TOKEN="<token>"
+export MONGODB_URI="mongodb://host.docker.internal:27017/BQRdigital"
+bash .sh/start.sh
 ```
 
-Set `API_TOKEN` in the PowerShell session first, and replace the example MongoDB URI with a database reachable from the container. For hosted production, inject both values through the platform's secret/configuration mechanism. To check startup, use `docker inspect --format='{{.State.Health.Status}}' bqrdigital`. See the Docker section in [RUNBOOK.md](./RUNBOOK.md) for verification and cleanup instructions.
+Set `API_TOKEN` and replace the example MongoDB URI with a database reachable from the container. The start script builds the image before starting the container; set `HOST_PORT` to change the host port (the container listens on `1989`). For hosted production, inject secrets through the platform's secret/configuration mechanism. To check startup, use `docker inspect --format='{{.State.Health.Status}}' bqrdigital`. Use `bash .sh/stop.sh` to stop and remove this project's container and image. MongoDB remains external; if its data is in a Docker volume, remove that volume explicitly with `bash .sh/clear-data.sh <volume-name>` after removing its MongoDB container. See the Docker section in [RUNBOOK.md](./RUNBOOK.md) for more detail.
 
 ## Configuration
 
