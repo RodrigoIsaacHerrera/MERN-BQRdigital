@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node src/indexserver.js",
     "dev": "nodemon src/indexserver.js",
-    "webpack": "webpack --mode development --watch"
+    "webpack": "webpack --mode development --watch",
+    "build": "webpack --mode production",
+    "test": "node --test"
   },
   "repository": {
     "type": "git",
@@ -19,6 +21,9 @@
     "url": "https://github.com/RodrigoIsaacHerrera/MERN-BQRdigital/issues"
   },
   "homepage": "https://github.com/RodrigoIsaacHerrera/MERN-BQRdigital#readme",
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
     "express": "^4.17.1",
     "mongoose": "^5.13.15",

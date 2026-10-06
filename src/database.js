@@ -1,6 +1,12 @@
-//este archivo permite conectarse a MONGODATABASE NO-SQL, este documento es llamado por indexserver.js(Servidor)
 const mongoose = require('mongoose');
-mongoose.connect("mongodb://localhost:27017/BQRdigital", { useNewUrlParser: true })
-    .then(db => console.log('DB is connected, animo mi amor <3 las computadoras te amamos ;)'))
-    .catch(err =>console.error(err)); 
-  
+
+const DEFAULT_DATABASE_URI = 'mongodb://127.0.0.1:27017/BQRdigital';
+
+function connectDatabase(uri = process.env.MONGODB_URI || DEFAULT_DATABASE_URI) {
+    return mongoose.connect(uri, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    });
+}
+
+module.exports = connectDatabase;

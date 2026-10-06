@@ -15,108 +15,108 @@ class App extends Component{
             Condiciones_Legales:"",
             Cod_QR:"",
             Tarifa:"",
+            apiToken:"",
             Boletos:[],
             _id:""
         }
         this.handleChange =this.handleChange.bind(this);
         this.addBoleto = this.addBoleto.bind(this);
+        this.connectApi = this.connectApi.bind(this);
     }
-    addBoleto(e){
-        if(this.state._id){
-            fetch(`/api/boletos/${this.state._id}`,{
-                method:'PUT',
-                body:JSON.stringify(this.state),
-                headers:{
-                    'Accept':'application/json',
-                    'Content-Type':'application/json'
-                }
-            })
-            .then(res=>res.json())
-            .then(data=>{
-                console.log(data)
-                M.toast({html:'Boleto Modificado'})
-                this.setState({
-                    Empresa:'',
-                    Asiento:'',
-                    Origen:'',
-                    Destino:'',
-                    Fecha:'',
-                    Abordaje:'',
-                    Salida:'',
-                    Condiciones_Legales:'',
-                    Cod_QR:'',
-                    Tarifa:'',
-                    _id:''
-                })
-                this.getBoletos()
-            })
-
-        } else {
-            fetch('/api/boletos',{
-                method:'POST',
-                body:JSON.stringify(this.state),
-                headers:{
-                    'Accept':'application/json',
-                    'Content-Type':'application/json',
-                }
-             }
-            )
-            .then(res=>res.json())
-            .catch(err=>console.error(err))
-            .then(data=>{
-                 console.log(data)
-                 M.toast({html:'BOLETO REGISTRADO'})
-                 this.setState({
-                 Empresa:'',
-                 Asiento:'',
-                 Origen:'',
-                 Destino:'',
-                 Fecha:'',
-                 Abordaje:'',
-                 Salida:'',
-                 Condiciones_Legales:'',
-                 Cod_QR:'',
-                 Tarifa:''
-                })
-             this.getBoletos()
-            })
+    apiRequest(url, options = {}){
+        if(!this.state.apiToken){
+            return Promise.reject(new Error('Enter the API access token to continue.'));
         }
-        e.preventDefault();
+        const headers = Object.assign({}, options.headers, {
+            Authorization:`Bearer ${this.state.apiToken}`
+        });
+        return fetch(url, Object.assign({}, options, {headers}))
+            .then(response => {
+                if(!response.ok){
+                    const message = response.status === 401
+                        ? 'The API access token is invalid.'
+                        : `The request failed (${response.status}).`;
+                    throw new Error(message);
+                }
+                return response;
+            });
     }
-    componentDidMount(){
+    showApiError(error){
+        console.error('Ticket API request failed:', error);
+        M.toast({html:error.message});
+    }
+    connectApi(e){
+        e.preventDefault();
         this.getBoletos();
     }
+    addBoleto(e){
+        e.preventDefault();
+        const isEditing = Boolean(this.state._id);
+        const url = isEditing
+            ? `/api/boletos/${this.state._id}`
+            : '/api/boletos';
+        const method = isEditing ? 'PUT' : 'POST';
+        const ticketFields = [
+            'Empresa', 'Asiento', 'Origen', 'Destino', 'Fecha', 'Abordaje',
+            'Salida', 'Condiciones_Legales', 'Cod_QR', 'Tarifa'
+        ];
+        const ticket = ticketFields.reduce((result, field) => {
+            result[field] = this.state[field];
+            return result;
+        }, {});
+
+        this.apiRequest(url, {
+            method,
+            body:JSON.stringify(ticket),
+            headers:{
+                'Accept':'application/json',
+                'Content-Type':'application/json'
+            }
+        })
+        .then(() => {
+            M.toast({html:isEditing ? 'Boleto Modificado' : 'BOLETO REGISTRADO'});
+            this.setState({
+                Empresa:'',
+                Asiento:'',
+                Origen:'',
+                Destino:'',
+                Fecha:'',
+                Abordaje:'',
+                Salida:'',
+                Condiciones_Legales:'',
+                Cod_QR:'',
+                Tarifa:'',
+                _id:''
+            });
+            this.getBoletos();
+        })
+        .catch(error => this.showApiError(error));
+    }
     getBoletos(){
-        fetch('/api/boletos')
+        this.apiRequest('/api/boletos')
             .then(res => res.json())
-            .then((data) =>{ 
-                this.setState({Boletos:data})
-                console.log(this.state.Boletos)
-            })
-        .catch((e)=>{console.error(e)})
+            .then(data => this.setState({Boletos:data}))
+            .catch(error => this.showApiError(error));
     }
     deleteBoleto(id){
-        //console.log('boleto eliminado',id)
         if(confirm('Deseas proceder con Eliminacion?')){
-            fetch(`/api/boletos/${id}`,{
+            this.apiRequest(`/api/boletos/${id}`,{
                 method:'DELETE',
                 headers:{'Accept':'application/json',
                         'Content-Type':'application/json',
                 }
             })
-            .then(data=>{
-                console.log(data);
+            .then(()=>{
                 M.toast({html:'Boleto BQRdigital Eliminado Satisfactoriamente'})
-                this.getBoletos()
             })
-            .then(res=>res.json())
+            .then(()=>this.getBoletos())
+            .catch(error => this.showApiError(error));
         }
     }
     editBoleto(id){
-        fetch(`/api/boletos/${id}`)
+        this.apiRequest(`/api/boletos/${id}`)
         .then(res=>res.json())
         .then(data=>{
-            console.log(data)
             this.setState({
                 Empresa:data.Empresa,
                 Asiento:data.Asiento,
@@ -131,8 +131,7 @@ class App extends Component{
                 _id:data._id
             })
         })
-        .catch((e)=>console.log(e));
-        //.then((focus())
+        .catch(error => this.showApiError(error));
     }
     handleChange(e){
         const { name, value } = e.target;
@@ -230,6 +229,23 @@ class App extends Component{
                     </div>
                     <div id="aplicacion" className="container">
                         <div className="row">
+                            <div className="col s12">
+                                <form onSubmit={this.connectApi}>
+                                    <div className="input field col s9">
+                                        <label htmlFor="apiToken">API access token</label>
+                                        <input
+                                            id="apiToken"
+                                            name="apiToken"
+                                            type="password"
+                                            autoComplete="current-password"
+                                            value={this.state.apiToken}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </div>
+                                    <button type="submit" className="btn">Connect</button>
+                                </form>
+                            </div>
                             <div className="col s7">
                                 <div className="card">
                                     <div className="card-content">
@@ -308,7 +324,7 @@ class App extends Component{
                                                             fgColor="#000000"
                                                             level="L"
                                                             style={{ width: 250}}
-                                                            value={`http://10.251.192.148:1989/api/boletos/${BQRdigital._id}`}
+                                                            value={`${window.location.origin}/api/boletos/${BQRdigital._id}`}
                                                         />
                                                         <br></br>
                                                         <br></br>

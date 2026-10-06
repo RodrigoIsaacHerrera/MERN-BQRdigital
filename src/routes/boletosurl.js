@@ -1,104 +1,111 @@
-//este archivo se encarga de el comportamiento de la aplicacion (controladores MVC)
-/*Permite comunicar el modelo con el back-end, consultar datos modificar datos, eliminar datos, leer datos
-ademas de definir las operaciones mediante las urls que vamos a dar en el servidor
-https://otroespacioblog.wordpress.com/2013/05/22/conoce-un-poco-sobre-los-metodos-http-en-rest/ */
 const express = require('express');
-const router = express.Router();
-const boletos =  require('../models/ticket')//modelo almacenado en constante para hacer consulta a la base de datos
+const createApiAuth = require('../middleware/apiAuth');
 
+const ticketFields = [
+    'Empresa',
+    'Asiento',
+    'Origen',
+    'Destino',
+    'Fecha',
+    'Abordaje',
+    'Salida',
+    'Condiciones_Legales',
+    'Cod_QR',
+    'Tarifa'
+];
 
-//Obtiene schema boletos o todos los documentos boletos
-router.get('/',async(req,res)=>{
-    try {
-        const  ticket  =   await boletos.find()//consulta a la db
-        res.json(ticket);
-    } catch (error) {
-        console.log(error);
+function pickTicketFields(body) {
+    if (!body || typeof body !== 'object' || Array.isArray(body)) {
+        return {};
     }
-});
-//obtiene un unico documento boleto
-router.get('/:id',async(req,res)=>{
-    try {
-        const ticket = await boletos.findById(req.params.id);
-        res.json(ticket);
-    } catch (error) {
-        console.log(error);  
-    }   
-});
-//Ingresa schema boleto
-router.post('/',async(req,res)=>{
-    try {
-        const {
-            Empresa,
-            Asiento,
-            Origen,
-            Destino,
-            Fecha,
-            Abordaje,
-            Salida,
-            Condiciones_Legales,
-            Cod_QR,
-            Tarifa} = req.body;//cliente envia documento al servidor
-        const boleto = new boletos({
-            Empresa,
-            Asiento,
-            Origen,
-            Destino,
-            Fecha,
-            Abordaje,
-            Salida,
-            Condiciones_Legales,
-            Cod_QR,
-            Tarifa});
-        await boleto.save();
-        res.json({status: 'boleto registrado exitosamente'});//respuesta del servidor
-    } catch (error) {
-        console.log(error);  
-    } 
-});
-//Actualiza schema boleto
-router.put('/:id',async(req,res)=>{
-    try {
-        const{
-            Empresa,
-            Asiento,
-            Origen,
-            Destino,
-            Fecha,
-            Abordaje,
-            salida,
-            Condiciones_Legales,
-            Cod_QR,
-            Tarifa
-        } = req.body;
-        const newboleto = ({
-            Empresa,
-            Asiento,
-            Origen,
-            Destino,
-            Fecha,
-            Abordaje,
-            salida,
-            Condiciones_Legales,
-            Cod_QR,
-            Tarifa
-        });
-        await boletos.findByIdAndUpdate(req.params.id, newboleto)//actualiza a la base de datos
-        res.send({status:'Boleto Actualizado'})
-    } catch (error) {
-        console.log(error); 
+
+    return ticketFields.reduce((ticket, field) => {
+        if (Object.prototype.hasOwnProperty.call(body, field)) {
+            ticket[field] = body[field];
+        }
+        return ticket;
+    }, {});
+}
+
+function createBoletosRouter(boletos, apiToken) {
+    if (!boletos) {
+        throw new Error('A ticket model is required.');
     }
-    
-});
-//Elimina  boleto
-router.delete('/:id',async(req,res)=>{
-    try {
-        await boletos.findByIdAndRemove(req.params.id)//actualiza a la base de datos    
-        res.json({status:'Boleto Eliminado'});
-    } catch (error) {
-        console.log(error);
-    }
-    
-    
-});
-module.exports = router;
+
+    const router = express.Router();
+    router.use(createApiAuth(apiToken));
+
+    router.get('/', async (req, res, next) => {
+        try {
+            res.json(await boletos.find());
+        } catch (error) {
+            next(error);
+        }
+    });
+
+    router.get('/:id', async (req, res, next) => {
+        try {
+            const ticket = await boletos.findById(req.params.id);
+            if (!ticket) {
+                return res.status(404).json({ error: 'Ticket not found' });
+            }
+            return res.json(ticket);
+        } catch (error) {
+            return next(error);
+        }
+    });
+
+    router.post('/', async (req, res, next) => {
+        try {
+            const ticket = new boletos(pickTicketFields(req.body));
+            await ticket.save();
+            return res.status(201).json(ticket);
+        } catch (error) {
+            return next(error);
+        }
+    });
+
+    router.put('/:id', async (req, res, next) => {
+        try {
+            const ticket = await boletos.findByIdAndUpdate(
+                req.params.id,
+                pickTicketFields(req.body),
+                { new: true, runValidators: true }
+            );
+            if (!ticket) {
+                return res.status(404).json({ error: 'Ticket not found' });
+            }
+            return res.json(ticket);
+        } catch (error) {
+            return next(error);
+        }
+    });
+
+    router.delete('/:id', async (req, res, next) => {
+        try {
+            const ticket = await boletos.findByIdAndDelete(req.params.id);
+            if (!ticket) {
+                return res.status(404).json({ error: 'Ticket not found' });
+            }
+            return res.json({ status: 'Ticket deleted' });
+        } catch (error) {
+            return next(error);
+        }
+    });
+
+    router.use((error, req, res, next) => {
+        if (res.headersSent) {
+            return next(error);
+        }
+
+        console.error('Ticket API request failed:', error);
+        const isInvalidTicket = error.name === 'ValidationError' || error.name === 'CastError';
+        const status = isInvalidTicket ? 400 : 500;
+        const message = isInvalidTicket ? 'Invalid ticket data' : 'Internal server error';
+        return res.status(status).json({ error: message });
+    });
+
+    return router;
+}
+
+module.exports = createBoletosRouter;
