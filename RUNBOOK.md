@@ -35,7 +35,34 @@ Wait for the `MongoDB connected. Server listening...` message, then open <http:/
 
 The server will not start without `API_TOKEN` and will not begin listening until MongoDB connects. If you change `PORT`, use that port in the browser and smoke-test URL.
 
-## 3. Run automated tests
+## 3. Build and run with Docker
+
+Docker packages only the BQRdigital application; use an external MongoDB service. Configure a token in PowerShell as described above, then build and start the image:
+
+```powershell
+docker build -t mern-bqrdigital:local .
+docker run --name bqrdigital `
+  -p 1989:1989 `
+  -e API_TOKEN=$env:API_TOKEN `
+  -e MONGODB_URI="mongodb://host.docker.internal:27017/BQRdigital" `
+  mern-bqrdigital:local
+```
+
+Replace the sample MongoDB URI with the actual database address reachable from the container. For production, provide credentials through the hosting platform's secret manager rather than embedding them in the image or source.
+
+Check the application container's health from another terminal:
+
+```powershell
+docker inspect --format='{{.State.Health.Status}}' bqrdigital
+```
+
+Expected result: `healthy`. The `/healthz` endpoint returns `200` only after the application connects to MongoDB. Verify the UI at <http://localhost:1989> and verify an unauthenticated API call returns `401` using section 5 below. Stop and remove this named test container when finished:
+
+```powershell
+docker rm -f bqrdigital
+```
+
+## 4. Run automated tests
 
 In another terminal:
 
@@ -45,7 +72,7 @@ npm test
 
 The API and authentication tests use an in-memory fake ticket model and do not require MongoDB or a running application.
 
-## 4. Verify the protected API
+## 5. Verify the protected API
 
 Use a second PowerShell terminal. Set the same values used by the server:
 
@@ -76,7 +103,7 @@ Invoke-RestMethod "$baseUrl/api/boletos" -Headers @{
 
 The browser's **Connect** action performs this authenticated list request. Ticket create, edit, and delete actions should work after connecting. QR codes resolve to `/api/boletos/:id`; scanners need a client capable of sending the same Bearer token.
 
-## 5. Troubleshooting
+## 6. Troubleshooting
 
 | Symptom | Checks |
 | --- | --- |

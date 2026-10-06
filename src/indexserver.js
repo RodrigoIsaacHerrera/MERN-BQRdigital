@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const mongoose = require('mongoose');
 const path = require('path');
 const connectDatabase = require('./database');
 const ticketModel = require('./models/ticket');
@@ -16,10 +17,18 @@ function createApp(options = {}) {
 
     const app = express();
     const model = options.ticketModel || ticketModel;
+    const isDatabaseReady = options.isDatabaseReady
+        || (() => mongoose.connection.readyState === 1);
 
     app.set('port', process.env.PORT || 1989);
     app.use(morgan('dev'));
     app.use(express.json({ limit: '10kb' }));
+    app.get('/healthz', (req, res) => {
+        const ready = isDatabaseReady();
+        return res.status(ready ? 200 : 503).json({
+            status: ready ? 'ok' : 'unavailable'
+        });
+    });
     app.use('/api/boletos', createBoletosRouter(model, apiToken));
     app.use(express.static(path.join(__dirname, 'public')));
 
@@ -31,7 +40,7 @@ if (require.main === module) {
 
     connectDatabase()
         .then(() => {
-            app.listen(app.get('port'), () => {
+            app.listen(app.get('port'), '0.0.0.0', () => {
                 console.log(`MongoDB connected. Server listening on port ${app.get('port')}.`);
             });
         })

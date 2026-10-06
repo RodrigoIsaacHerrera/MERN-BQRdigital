@@ -18,6 +18,7 @@ BQRdigital is a small MERN application for creating, viewing, updating, and dele
 
 - Node.js 18 or newer and npm
 - MongoDB 5 or newer, running locally or reachable through a MongoDB connection URI
+- Docker Engine (optional, for containerized use)
 
 ## Quick start
 
@@ -50,6 +51,21 @@ BQRdigital is a small MERN application for creating, viewing, updating, and dele
 4. Open <http://localhost:1989>, enter the same API token in the access-token field, and select **Connect**.
 
 The application listens on port `1989` by default. Set `PORT` to use another port. See the [operational runbook](./RUNBOOK.md) for detailed startup, smoke-test, and troubleshooting steps.
+
+## Docker deployment
+
+The production image uses Node.js 22 on Alpine, builds and tests the React client in a multi-stage build, and contains only runtime dependencies in its final stage. It runs as the unprivileged `node` user, removes npm from the runtime image, and exposes `/healthz` for container health checks. MongoDB is external and is not included in the image.
+
+```powershell
+docker build -t mern-bqrdigital:local .
+docker run --name bqrdigital `
+  -p 1989:1989 `
+  -e API_TOKEN=$env:API_TOKEN `
+  -e MONGODB_URI="mongodb://host.docker.internal:27017/BQRdigital" `
+  mern-bqrdigital:local
+```
+
+Set `API_TOKEN` in the PowerShell session first, and replace the example MongoDB URI with a database reachable from the container. For hosted production, inject both values through the platform's secret/configuration mechanism. To check startup, use `docker inspect --format='{{.State.Health.Status}}' bqrdigital`. See the Docker section in [RUNBOOK.md](./RUNBOOK.md) for verification and cleanup instructions.
 
 ## Configuration
 
