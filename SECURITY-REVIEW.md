@@ -1,5 +1,20 @@
 # Security review
 
+## Dependency maintenance
+
+The npm dependency tree was audited on 2026-10-06. The initial lockfile had
+22 advisories (2 critical, 12 high, 5 moderate, and 3 low); two were in the
+production dependency tree. Patched compatible dependencies and removal of
+the vulnerable development-only `nodemon` chain resolved the reported
+findings. The final full-tree and production-only audits both reported zero
+vulnerabilities. See the [npm dependency vulnerability mitigation
+plan](./DEPENDENCY-SECURITY-PLAN.md) for the baseline and update procedure.
+
+The supported runtime is Node.js 22 or newer. Verification used Node.js
+24.21.0 and npm 11.19.0. CI tests the application on Node.js 22 and 24,
+including the API/health tests, token-generation test, and production client
+build.
+
 ## Finding
 
 | # | Severity | File | Lines | Vulnerability | Confidence |

@@ -4,29 +4,31 @@ This runbook covers local setup, automated checks, startup, and API verification
 
 ## 1. Prerequisites
 
-- Node.js 18+ and npm are available in the terminal.
+- Node.js 22+ and npm are available in the terminal.
 - MongoDB is installed and running, or a MongoDB URI is available.
-- The repository dependencies are installed with `npm install`.
+- The repository dependencies are installed with `npm ci`.
+- Bash and OpenSSL are installed for API token generation (Git Bash or WSL on Windows).
 
 ## 2. Configure and start
 
-Open PowerShell in the repository directory and configure the server:
+Open Bash (or Git Bash/WSL on Windows) in the repository directory and configure
+the server. Source the helper in every terminal where the server or container
+will be started; environment variables do not carry over between terminals.
 
-```powershell
-$bytes = New-Object byte[] 32
-$rng = [Security.Cryptography.RandomNumberGenerator]::Create()
-$rng.GetBytes($bytes)
-$env:API_TOKEN = [BitConverter]::ToString($bytes).Replace("-", "").ToLowerInvariant()
-$rng.Dispose()
-$env:MONGODB_URI = "mongodb://127.0.0.1:27017/BQRdigital"
-$env:PORT = "1989"
+```sh
+source .sh/create-api-token.sh
+export MONGODB_URI="mongodb://127.0.0.1:27017/BQRdigital"
+export PORT="1989"
 ```
 
-Keep the token value available for the smoke tests and enter it in the browser UI. The token is held in the page's memory and must be entered again after a reload.
+The token is exported in the current shell and is not printed or written to a
+file. To enter it in the browser, display it only in a trusted terminal with
+`printf '%s\n' "$API_TOKEN"`; keep it private. The browser UI requires it again
+after a reload.
 
 Build the client bundle and start the application:
 
-```powershell
+```sh
 npm run build
 npm start
 ```
@@ -37,18 +39,17 @@ The server will not start without `API_TOKEN` and will not begin listening until
 
 ## 3. Build and run with Docker
 
-Docker packages only the BQRdigital application; use an external MongoDB service. Configure a token in PowerShell as described above, then build and start the image:
+Docker packages only the BQRdigital application; use an external MongoDB
+service. In the Bash terminal configured above, build and start the image:
 
-```powershell
-docker build -t mern-bqrdigital:local .
-docker run --name bqrdigital `
-  -p 1989:1989 `
-  -e API_TOKEN=$env:API_TOKEN `
-  -e MONGODB_URI="mongodb://host.docker.internal:27017/BQRdigital" `
-  mern-bqrdigital:local
+```sh
+bash .sh/start.sh
 ```
 
-Replace the sample MongoDB URI with the actual database address reachable from the container. For production, provide credentials through the hosting platform's secret manager rather than embedding them in the image or source.
+Replace the sample MongoDB URI from the setup section with the actual database
+address reachable from the container. `HOST_PORT` can override the host-side
+port (default `1989`). For production, provide credentials through the hosting
+platform's secret manager rather than embedding them in the image or source.
 
 Check the application container's health from another terminal:
 
@@ -62,10 +63,12 @@ Expected result: `healthy`. The `/healthz` endpoint returns `200` only after the
 docker rm -f bqrdigital
 ```
 
-Alternatively, from Bash (including Git Bash or WSL), export the required configuration and use the project scripts:
+The helper above already exports `API_TOKEN` for this shell. To run the
+container from a new Bash terminal (including Git Bash or WSL), source it there
+and export the required database URI before using the project scripts:
 
 ```sh
-export API_TOKEN="<the generated token>"
+source .sh/create-api-token.sh
 export MONGODB_URI="mongodb://host.docker.internal:27017/BQRdigital"
 bash .sh/start.sh
 ```
@@ -76,17 +79,27 @@ MongoDB is external and the application container does not own its database data
 
 ## 4. Run automated tests
 
-In another terminal:
+In another terminal with Node.js 22 or newer:
 
-```powershell
+```sh
 npm test
+npm run test:token
+npm run build
+npm run audit
+npm run audit:production
 ```
 
-The API and authentication tests use an in-memory fake ticket model and do not require MongoDB or a running application.
+The API and authentication tests use an in-memory fake ticket model and do not
+require MongoDB or a running application. The token test requires Bash and
+OpenSSL. CI repeats the tests, token test, and production build on Node.js 22
+and 24. The audit commands check npm advisories; use `npm audit --json` and
+`npm audit --omit=dev --json` to investigate detailed findings. For the
+remediation policy, see [DEPENDENCY-SECURITY-PLAN.md](./DEPENDENCY-SECURITY-PLAN.md).
 
 ## 5. Verify the protected API
 
-Use a second PowerShell terminal. Set the same values used by the server:
+Use a second terminal and set the same token value used by the server. For
+PowerShell, copy it from the trusted server terminal:
 
 ```powershell
 $env:API_TOKEN = "<the token configured in the server terminal>"
@@ -123,4 +136,4 @@ The browser's **Connect** action performs this authenticated list request. Ticke
 | MongoDB connection failure | Confirm MongoDB is running and `MONGODB_URI` is correct and reachable. |
 | Browser shows `401` | Confirm the token entered in the UI exactly matches the server's `API_TOKEN`; restart the server after rotating it. |
 | Browser cannot connect | Confirm the server's listening port and open the matching local URL. |
-| Build or test command is missing | Confirm Node.js 18+ and npm are installed, then run `npm install`. |
+| Build or test command is missing | Confirm Node.js 22+ and npm are installed, then run `npm ci`. |

@@ -5,10 +5,13 @@
   "main": "indexserver.js",
   "scripts": {
     "start": "node src/indexserver.js",
-    "dev": "nodemon src/indexserver.js",
+    "dev": "node --watch src/indexserver.js",
     "webpack": "webpack --mode development --watch",
     "build": "webpack --mode production",
-    "test": "node --test"
+    "test": "node --test",
+    "test:token": "bash test/test-create-api-token.sh",
+    "audit": "npm audit --audit-level=high",
+    "audit:production": "npm audit --omit=dev --audit-level=high"
   },
   "repository": {
     "type": "git",
@@ -22,7 +25,7 @@
   },
   "homepage": "https://github.com/RodrigoIsaacHerrera/MERN-BQRdigital#readme",
   "engines": {
-    "node": ">=18"
+    "node": ">=22"
   },
   "dependencies": {
     "express": "^4.21.2",
@@ -34,7 +37,6 @@
     "@babel/preset-env": "^7.10.4",
     "@babel/preset-react": "^7.10.4",
     "babel-loader": "^8.1.0",
-    "nodemon": "^2.0.20",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-qr-svg": "^2.2.2",

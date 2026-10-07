@@ -12,34 +12,35 @@ BQRdigital is a small MERN application for creating, viewing, updating, and dele
 - [API reference](#api-reference)
 - [Security](#security)
 - [Development and tests](#development-and-tests)
+- [Dependency security plan](#dependency-security-plan)
 - [Operational runbook](#operational-runbook)
 
 ## Requirements
 
-- Node.js 18 or newer and npm
+- Node.js 22 or newer and npm
 - MongoDB 5 or newer, running locally or reachable through a MongoDB connection URI
 - Docker Engine (optional, for containerized use)
+- Bash and OpenSSL for the API token helper (Git Bash and WSL are supported on Windows)
 
 ## Quick start
 
 1. Install dependencies:
 
    ```sh
-   npm install
+   npm ci
    ```
 
-2. Start MongoDB and configure the application. In PowerShell:
+2. Start MongoDB and create a token in Bash (Git Bash or WSL on Windows):
 
-   ```powershell
-   $bytes = New-Object byte[] 32
-   $rng = [Security.Cryptography.RandomNumberGenerator]::Create()
-   $rng.GetBytes($bytes)
-   $env:API_TOKEN = [BitConverter]::ToString($bytes).Replace("-", "").ToLowerInvariant()
-   $rng.Dispose()
-   $env:MONGODB_URI = "mongodb://127.0.0.1:27017/BQRdigital"
+   ```sh
+   source .sh/create-api-token.sh
+   export MONGODB_URI="mongodb://127.0.0.1:27017/BQRdigital"
    ```
 
-   Keep the generated token private. Set it again in each new terminal session.
+   The helper exports a fresh 256-bit token only in the current terminal; source
+   it again in each new server terminal. To enter the token in the browser,
+   reveal it only in a trusted terminal with `printf '%s\n' "$API_TOKEN"`.
+   Keep it private.
 
 3. Build the browser client and start the server:
 
@@ -57,12 +58,22 @@ The application listens on port `1989` by default. Set `PORT` to use another por
 The production image uses Node.js 22 on Alpine, builds and tests the React client in a multi-stage build, and contains only runtime dependencies in its final stage. It runs as the unprivileged `node` user, removes npm from the runtime image, and exposes `/healthz` for container health checks. MongoDB is external and is not included in the image.
 
 ```sh
-export API_TOKEN="<token>"
+source .sh/create-api-token.sh
 export MONGODB_URI="mongodb://host.docker.internal:27017/BQRdigital"
 bash .sh/start.sh
 ```
 
-Set `API_TOKEN` and replace the example MongoDB URI with a database reachable from the container. The start script builds the image before starting the container; set `HOST_PORT` to change the host port (the container listens on `1989`). For hosted production, inject secrets through the platform's secret/configuration mechanism. To check startup, use `docker inspect --format='{{.State.Health.Status}}' bqrdigital`. Use `bash .sh/stop.sh` to stop and remove this project's container and image. MongoDB remains external; if its data is in a Docker volume, remove that volume explicitly with `bash .sh/clear-data.sh <volume-name>` after removing its MongoDB container. See the Docker section in [RUNBOOK.md](./RUNBOOK.md) for more detail.
+Replace the example MongoDB URI with a database reachable from the container.
+The start script builds the image before starting the container; set
+`HOST_PORT` to change the host port (the container listens on `1989`). For
+hosted production, inject secrets through the platform's secret/configuration
+mechanism. To check startup, use
+`docker inspect --format='{{.State.Health.Status}}' bqrdigital`. Use
+`bash .sh/stop.sh` to stop and remove this project's container and image.
+MongoDB remains external; if its data is in a Docker volume, remove that volume
+explicitly with `bash .sh/clear-data.sh <volume-name>` after removing its
+MongoDB container. See the Docker section in [RUNBOOK.md](./RUNBOOK.md) for
+more detail.
 
 ## Configuration
 
@@ -117,7 +128,21 @@ npm run build
 npm run dev
 ```
 
-`npm run dev` starts the API with nodemon. It requires the same environment variables and a reachable MongoDB instance as `npm start`.
+`npm run dev` starts the API with Node.js watch mode. It requires the same
+environment variables and a reachable MongoDB instance as `npm start`.
+
+The Node.js compatibility matrix (22 and 24), API/health functionality tests,
+token-helper test, and production build run in CI for pushes and pull requests.
+Run the local dependency scan with `npm run audit` and its runtime-only variant
+with `npm run audit:production`. See the [npm dependency vulnerability
+mitigation plan](./DEPENDENCY-SECURITY-PLAN.md) for triage and update policy.
+
+## Dependency security plan
+
+The final full dependency-tree and production-only npm audits reported zero
+vulnerabilities on 2026-10-06. For the initial findings, applied remediations,
+and ongoing update/verification policy, see
+[DEPENDENCY-SECURITY-PLAN.md](./DEPENDENCY-SECURITY-PLAN.md).
 
 ## Operational runbook
 

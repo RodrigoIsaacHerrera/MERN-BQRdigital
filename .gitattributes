@@ -1,0 +1,2 @@
+.sh/create-api-token.sh text eol=lf
+test/test-create-api-token.sh text eol=lf
